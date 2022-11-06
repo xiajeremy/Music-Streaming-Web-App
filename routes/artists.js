@@ -18,8 +18,8 @@ router.get('/:id', getArtist, (req, res) => {
 //Creating one
 router.post('/', async (req, res) => {
     const artist = new Artist ({
-        artistID: req.body.artistID,
-        name: req.body.name
+        artist_id: req.body.artist_id,
+        artist_name: req.body.artist_name
     })
     try {
         const newArtist = await artist.save()
@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
 })
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getArtist, async (req, res) => {
-    if (req.body.name != null) {
-        res.artist.name = req.body.name
+    if (req.body.artist_name != null) {
+        res.artist.artist_name = req.body.artist_name
     }
     try {
         const updatedArtist = await res.artist.save()

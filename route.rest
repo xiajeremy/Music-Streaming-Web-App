@@ -2,3 +2,21 @@ GET http://localhost:3000/artists/
 
 ###
 
+POST http://localhost:3000/artists/
+Content-Type: application/json
+
+[
+    {
+        "artist_id": 6132982162,
+        "artist_name": "Jeremy Xia"
+    },
+    {
+        "artist_id": 6132982162123,
+        "artist_name": "Not Jeremy Xia"
+    }
+]
+
+
+###
+
+DELETE http://localhost:3000/artists/636726705cd73311e70aa641
