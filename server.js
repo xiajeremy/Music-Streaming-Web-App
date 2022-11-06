@@ -13,5 +13,11 @@ app.use(express.json())
 
 const artistsRouter = require('./routes/artists')
 app.use('/artists', artistsRouter)
+const albumsRouter = require('./routes/albums')
+app.use('/albums', albumsRouter)
+const genresRouter = require('./routes/genres')
+app.use('/genres', genresRouter)
+const tracksRouter = require('./routes/tracks')
+app.use('/tracks', tracksRouter)
 
 app.listen(3000, () => console.log('Server Started'));

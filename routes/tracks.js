@@ -19,7 +19,7 @@ router.get('/:id', getTrack, (req, res) => {
 router.post('/', async (req, res) => {
     const track = new Track ({
         track_id: req.body.track_id,
-        track_name: req.body.track_name
+        track_title: req.body.track_title
     })
     try {
         const newTrack = await track.save()
@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
 })
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getTrack, async (req, res) => {
-    if (req.body.track_name != null) {
-        res.track.track_name = req.body.track_name
+    if (req.body.track_title != null) {
+        res.track.track_title = req.body.track_title
     }
     try {
         const updatedTrack = await res.track.save()

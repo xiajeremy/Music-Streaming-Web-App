@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const albumSchema = new mongoose.Schema({
     
     album_id: {
-        type: String
+        type: String,
+        required: true
     },
     album_comments: {
         type: String
@@ -39,7 +40,8 @@ const albumSchema = new mongoose.Schema({
         type: String
     },
     album_title: {
-        type: String
+        type: String,
+        required: true
     },
     album_tracks: {
         type: String

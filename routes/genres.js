@@ -19,7 +19,7 @@ router.get('/:id', getGenre, (req, res) => {
 router.post('/', async (req, res) => {
     const genre = new Genre ({
         genre_id: req.body.genre_id,
-        genre_name: req.body.genre_name
+        title: req.body.title
     })
     try {
         const newGenre = await genre.save()
@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
 })
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getGenre, async (req, res) => {
-    if (req.body.genre_name != null) {
-        res.genre.genre_name = req.body.genre_name
+    if (req.body.genre_title != null) {
+        res.genre.genre_title = req.body.genre_title
     }
     try {
         const updatedGenre = await res.genre.save()

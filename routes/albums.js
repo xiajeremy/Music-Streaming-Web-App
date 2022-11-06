@@ -19,7 +19,7 @@ router.get('/:id', getAlbum, (req, res) => {
 router.post('/', async (req, res) => {
     const album = new Album ({
         album_id: req.body.album_id,
-        album_name: req.body.album_name
+        album_title: req.body.album_title
     })
     try {
         const newAlbum = await album.save()
@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
 })
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getAlbum, async (req, res) => {
-    if (req.body.album_name != null) {
-        res.album.album_name = req.body.album_name
+    if (req.body.album_title != null) {
+        res.album.album_title = req.body.album_title
     }
     try {
         const updatedAlbum = await res.album.save()
