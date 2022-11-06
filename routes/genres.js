@@ -1,6 +1,19 @@
 const express = require('express')
+const app = express();
 const router = express.Router()
 const Genre = require('../models/genre')
+const cors = require('cors');
+let bodyParser = require('body-parser');
+let multer = require('multer');
+let csv = require('csvtojson');
+
+let upload =  multer({dest: 'data/'})
+
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
+
 
 //Getting all
 router.get('/', async (req, res) => {
@@ -16,6 +29,7 @@ router.get('/:id', getGenre, (req, res) => {
     res.send(res.genre)
 })
 //Creating one
+/*
 router.post('/', async (req, res) => {
     const genre = new Genre ({
         genre_id: req.body.genre_id,
@@ -28,6 +42,35 @@ router.post('/', async (req, res) => {
         res.status(400).json({ message: err.message })
     }
 })
+*/
+router.post('/', upload.single('file'),async (req, res)=>{
+    csv()
+    .fromFile('C:/Users/xxia/Documents/3rd Year/SE3316/se3316-jxia47-lab3/data/genres.csv')
+    .then(obj=>{
+        try{
+        obj.forEach(async item =>{
+            const Genres = new Genre({
+            title: item.title,
+            genre_id: item.genre_id,
+            parent: item.parent,
+        });
+        Genres.save()
+        })
+        res.json({message:'Succesfully Uploaded'})
+    }
+    catch(err){
+        err.json({message: err.message});
+    }
+    })
+    
+    
+})
+
+
+
+
+
+
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getGenre, async (req, res) => {
     if (req.body.genre_title != null) {
