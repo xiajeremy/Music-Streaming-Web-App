@@ -45,25 +45,23 @@ router.post('/', async (req, res) => {
 */
 router.post('/', upload.single('file'),async (req, res)=>{
     csv()
-    .fromFile('C:/Users/xxia/Documents/3rd Year/SE3316/se3316-jxia47-lab3/data/genres.csv')
+    .fromFile('data/genres.csv')
     .then(obj=>{
         try{
-        obj.forEach(async item =>{
-            const Genres = new Genre({
-            title: item.title,
-            genre_id: item.genre_id,
-            parent: item.parent,
-        });
-        Genres.save()
-        })
-        res.json({message:'Succesfully Uploaded'})
-    }
-    catch(err){
-        err.json({message: err.message});
-    }
+            obj.forEach(async item =>{
+                const genre = new Genre({
+                    title: item.title,
+                    genre_id: item.genre_id,
+                    parent: item.parent
+                });
+                genre.save()
+            })
+            res.json({message:'Succesfully Uploaded'})
+        }
+        catch(err){
+            err.status(400).json({message: err.message});
+        }
     })
-    
-    
 })
 
 

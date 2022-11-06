@@ -1,6 +1,17 @@
 const express = require('express')
 const router = express.Router()
 const Track = require('../models/track')
+const app = express();
+const cors = require('cors');
+let bodyParser = require('body-parser');
+let multer = require('multer');
+let csv = require('csvtojson');
+
+let upload =  multer({dest: 'data/'})
+
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 //Getting all
 router.get('/', async (req, res) => {
@@ -16,17 +27,48 @@ router.get('/:id', getTrack, (req, res) => {
     res.send(res.track)
 })
 //Creating one
-router.post('/', async (req, res) => {
+/*router.post('/', async (req, res) => {
     const track = new Track ({
         track_id: req.body.track_id,
         track_title: req.body.track_title
     })
     try {
         const newTrack = await track.save()
-        res.status(201).json(newTrack)
+        res.status(201).json(newTrack)tracks
     } catch (err){
         res.status(400).json({ message: err.message })
     }
+})*/
+
+router.post('/', upload.single('file'),async (req, res)=>{
+    csv()
+    .fromFile('data/raw_tracks.csv')
+    .then(obj=>{
+        try{
+            obj.forEach(async item =>{
+                const track = new Track({
+                    title: item.title,
+                    track_id: item.track_id,
+                    album_id: item.album_id, 
+                    album_title: item.album_title,
+                    artist_id: item.artist_id,
+                    artist_name: item.artist_name,
+                    tags: item.tags,
+                    track_date_created: item.track_date_created,
+                    track_date_recorded: item.track_date_recorded,
+                    track_duration: item.track_duration,
+                    track_genres: item.track_genres,
+                    track_number: item.track_number,
+                    track_title: item.track_title
+                });
+                track.save()
+            })
+            res.json({message:'Succesfully Uploaded'})
+        }
+        catch(err){
+            err.status(400).json({message: err.message});
+        }
+    })
 })
 
 

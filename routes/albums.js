@@ -1,6 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const Album = require('../models/album')
+const app = express();
+const cors = require('cors');
+let bodyParser = require('body-parser');
+let multer = require('multer');
+let csv = require('csvtojson');
+
+let upload =  multer({dest: 'data/'})
+
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
+
 
 //Getting all
 router.get('/', async (req, res) => {
@@ -16,7 +28,7 @@ router.get('/:id', getAlbum, (req, res) => {
     res.send(res.album)
 })
 //Creating one
-router.post('/', async (req, res) => {
+/*router.post('/', async (req, res) => {
     const album = new Album ({
         album_id: req.body.album_id,
         album_title: req.body.album_title
@@ -27,7 +39,34 @@ router.post('/', async (req, res) => {
     } catch (err){
         res.status(400).json({ message: err.message })
     }
+})*/
+
+router.post('/', upload.single('file'),async (req, res)=>{
+    csv()
+    .fromFile('data/raw_albums.csv')
+    .then(obj=>{
+        try{
+            obj.forEach(async item =>{
+                const album = new Album({
+                    album_title: item.album_title,
+                    artist_name: item.artist_name,
+                    album_id: item.album_id,
+                    album_engineer: item.album_engineer,
+                    album_producer: item.album_producer
+                });
+                album.save()
+            })
+            res.json({message:'Succesfully Uploaded'})
+        }
+        catch(err){
+            err.status(400).json({message: err.message});
+        }
+    })
 })
+
+
+
+
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:id', getAlbum, async (req, res) => {
     if (req.body.album_title != null) {
