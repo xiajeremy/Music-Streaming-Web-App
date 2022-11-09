@@ -23,13 +23,27 @@ router.get('/', async (req, res) => {
     }
 })
 //Getting one
-router.get('/:tracks_id', getTrack, (req, res) => {
+router.get('/:track_id', getTrack, (req, res) => {
     res.send(res.track)
 })
 
-searchTracks = () => {
-    
-}
+//QUESTION 4
+router.get('/search/:trackSearch', getTrack, async (req, res) => {
+    let counter = 0;
+    var allResults = await Track.find({
+        $or: [
+            {'track_title': {$regex: new RegExp(req.params.trackSearch, 'i')}},
+            {'album_title': {$regex: new RegExp(req.params.trackSearch, 'i')}}
+        ]
+    });
+
+    var finalResults = [];
+    for(let i = 0; i < 20; i++){
+        finalResults.push(allResults[i].track_id);
+    }
+    res.send(finalResults)
+})
+
 
 //Creating one
 /*router.post('/', async (req, res) => {
@@ -101,10 +115,11 @@ router.delete('/:tracks_id', getTrack, async (req, res) => {
     }
 })
 
+//middleware
 async function getTrack(req, res, next) {
     let track
     try { 
-        track = await Track.find({tracks_id: req.params.tracks_id})
+        track = await Track.find({track_id: req.params.track_id})
         if (track == null) {
             return res.status(404).json({ message: 'Cannot find track' })
         }
