@@ -23,9 +23,14 @@ router.get('/', async (req, res) => {
     }
 })
 //Getting one
-router.get('/:id', getTrack, (req, res) => {
+router.get('/:tracks_id', getTrack, (req, res) => {
     res.send(res.track)
 })
+
+searchTracks = () => {
+    
+}
+
 //Creating one
 /*router.post('/', async (req, res) => {
     const track = new Track ({
@@ -75,7 +80,7 @@ router.post('/', upload.single('file'),async (req, res)=>{
 
 
 //Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:id', getTrack, async (req, res) => {
+router.patch('/:tracks_id', getTrack, async (req, res) => {
     if (req.body.track_title != null) {
         res.track.track_title = req.body.track_title
     }
@@ -87,7 +92,7 @@ router.patch('/:id', getTrack, async (req, res) => {
     }
 })
 //Deleting one
-router.delete('/:id', getTrack, async (req, res) => {
+router.delete('/:tracks_id', getTrack, async (req, res) => {
     try {
         await res.track.remove()
         res.json({ message: "Deleted track"})
@@ -99,7 +104,7 @@ router.delete('/:id', getTrack, async (req, res) => {
 async function getTrack(req, res, next) {
     let track
     try { 
-        track = await Track.findById(req.params.id)
+        track = await Track.find({tracks_id: req.params.tracks_id})
         if (track == null) {
             return res.status(404).json({ message: 'Cannot find track' })
         }

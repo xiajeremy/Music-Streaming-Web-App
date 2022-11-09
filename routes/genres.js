@@ -25,11 +25,14 @@ router.get('/', async (req, res) => {
     }
 })
 //Getting one
-router.get('/:id', getGenre, (req, res) => {
+router.get('/:genre_id', getGenre, (req, res) => {
     res.send(res.genre)
 })
+
+
+
 //Creating one
-/*
+/* MANUAL POST
 router.post('/', async (req, res) => {
     const genre = new Genre ({
         genre_id: req.body.genre_id,
@@ -70,7 +73,7 @@ router.post('/', upload.single('file'),async (req, res)=>{
 
 
 //Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:id', getGenre, async (req, res) => {
+router.patch('/:genre_id', getGenre, async (req, res) => {
     if (req.body.genre_title != null) {
         res.genre.genre_title = req.body.genre_title
     }
@@ -82,7 +85,7 @@ router.patch('/:id', getGenre, async (req, res) => {
     }
 })
 //Deleting one
-router.delete('/:id', getGenre, async (req, res) => {
+router.delete('/:genre_id', getGenre, async (req, res) => {
     try {
         await res.genre.remove()
         res.json({ message: "Deleted genre"})
@@ -91,10 +94,12 @@ router.delete('/:id', getGenre, async (req, res) => {
     }
 })
 
+//Middleware
 async function getGenre(req, res, next) {
     let genre
     try { 
-        genre = await Genre.findById(req.params.id)
+        genre = await Genre.find({genre_id: req.params.genre_id})
+        //p => p.genre_id === parseInt(genre_id
         if (genre == null) {
             return res.status(404).json({ message: 'Cannot find genre' })
         }

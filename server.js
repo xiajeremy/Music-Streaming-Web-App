@@ -20,4 +20,6 @@ app.use('/genres', genresRouter)
 const tracksRouter = require('./routes/tracks')
 app.use('/tracks', tracksRouter)
 
+app.use('/', express.static('static'));
+
 app.listen(3000, () => console.log('Server Started'));

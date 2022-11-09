@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     }
 })
 //Getting one
-router.get('/:id', getArtist, (req, res) => {
+router.get('/:artist_id', getArtist, (req, res) => {
     res.send(res.artist)
 })
 //Creating one
@@ -71,7 +71,7 @@ router.post('/', upload.single('file'),async (req, res)=>{
 
 
 //Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:id', getArtist, async (req, res) => {
+router.patch('/:artist_id', getArtist, async (req, res) => {
     if (req.body.artist_name != null) {
         res.artist.artist_name = req.body.artist_name
     }
@@ -83,7 +83,7 @@ router.patch('/:id', getArtist, async (req, res) => {
     }
 })
 //Deleting one
-router.delete('/:id', getArtist, async (req, res) => {
+router.delete('/:artist_id', getArtist, async (req, res) => {
     try {
         await res.artist.remove()
         res.json({ message: "Deleted artist"})
@@ -95,7 +95,7 @@ router.delete('/:id', getArtist, async (req, res) => {
 async function getArtist(req, res, next) {
     let artist
     try { 
-        artist = await Artist.findById(req.params.id)
+        artist = await Artist.find({artist_id: req.params.artist_id})
         if (artist == null) {
             return res.status(404).json({ message: 'Cannot find artist' })
         }

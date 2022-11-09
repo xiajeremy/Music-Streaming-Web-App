@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
     }
 })
 //Getting one
-router.get('/:id', getAlbum, (req, res) => {
+router.get('/:album_id', getAlbum, (req, res) => {
     res.send(res.album)
 })
 //Creating one
@@ -68,7 +68,7 @@ router.post('/', upload.single('file'),async (req, res)=>{
 
 
 //Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:id', getAlbum, async (req, res) => {
+router.patch('/:album_id', getAlbum, async (req, res) => {
     if (req.body.album_title != null) {
         res.album.album_title = req.body.album_title
     }
@@ -80,7 +80,7 @@ router.patch('/:id', getAlbum, async (req, res) => {
     }
 })
 //Deleting one
-router.delete('/:id', getAlbum, async (req, res) => {
+router.delete('/:album_id', getAlbum, async (req, res) => {
     try {
         await res.album.remove()
         res.json({ message: "Deleted album"})
@@ -92,7 +92,7 @@ router.delete('/:id', getAlbum, async (req, res) => {
 async function getAlbum(req, res, next) {
     let album
     try { 
-        album = await Album.findById(req.params.id)
+        album = await Album.find({album_id: req.params.album_id})
         if (album == null) {
             return res.status(404).json({ message: 'Cannot find album' })
         }

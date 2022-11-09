@@ -1,0 +1,68 @@
+/*Pokemon DIsplay*/
+body {
+    background-color: lightblue;
+  }
+  
+    
+  h1, h2 {
+    color: rgb(60, 90, 166);
+    margin-left: 20px;
+    
+  }
+  ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  
+  }
+  
+  li a {
+    float: left;
+    display: block;
+    text-align: center;
+    padding: 8px;
+    text-decoration: none;
+    color:rgb(60, 90, 166);
+  }
+  li a:hover {
+    background-color: rgb(199, 160, 8);
+    
+  }
+  img {
+    background-color: rgb(42, 117, 187);
+    padding: 16px;
+  }
+  
+  /*Search Bar*/
+  .search-container {
+    overflow: hidden;
+  }
+  
+  
+  
+  .search-container input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+  }
+  
+  .search-container button {
+    padding: 6px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  
+  
+  .search-container button:hover {
+    background: #ccc;
+  }
+  
+  
+  
