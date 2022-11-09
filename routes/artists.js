@@ -27,6 +27,18 @@ router.get('/', async (req, res) => {
 router.get('/:artist_id', getArtist, (req, res) => {
     res.send(res.artist)
 })
+
+//QUESTION 5
+router.get('/search/:artistSearch', async (req, res) => {
+    var allResults = await Artist.find({'artist_name': {$regex: new RegExp(req.params.artistSearch, 'i')}});
+    
+    var finalResults = [];
+    for(let i = 0; i < allResults.length - 1; i++){
+        finalResults.push(allResults[i].artist_id);
+    }
+    res.send(finalResults)
+})
+
 //Creating one
 /*router.post('/', async (req, res) => {
     const artist = new Artist ({

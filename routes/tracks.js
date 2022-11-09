@@ -28,8 +28,7 @@ router.get('/:track_id', getTrack, (req, res) => {
 })
 
 //QUESTION 4
-router.get('/search/:trackSearch', getTrack, async (req, res) => {
-    let counter = 0;
+router.get('/search/:trackSearch', async (req, res) => {
     var allResults = await Track.find({
         $or: [
             {'track_title': {$regex: new RegExp(req.params.trackSearch, 'i')}},
