@@ -19,6 +19,8 @@ const genresRouter = require('./routes/genres')
 app.use('/genres', genresRouter)
 const tracksRouter = require('./routes/tracks')
 app.use('/tracks', tracksRouter)
+const playlistRouter = require('./routes/playlists')
+app.use('/playlists', playlistRouter)
 
 app.use('/', express.static('static'));
 

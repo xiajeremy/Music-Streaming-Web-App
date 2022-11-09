@@ -107,7 +107,7 @@ router.delete('/:artist_id', getArtist, async (req, res) => {
 async function getArtist(req, res, next) {
     let artist
     try { 
-        artist = await Artist.find({artist_id: req.params.artist_id})
+        artist = await Artist.findOne({artist_id: req.params.artist_id})
         if (artist == null) {
             return res.status(404).json({ message: 'Cannot find artist' })
         }

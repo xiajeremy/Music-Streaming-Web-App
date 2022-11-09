@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 
 const playlistSchema = new mongoose.Schema({
     playlist_name: {
-        type: Number,
+        type: String,
         required: true
         
     },
-    '#tracks': {
+    tracks_amount: {
         type: Number
         
     },

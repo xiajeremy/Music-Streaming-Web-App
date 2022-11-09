@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Playlist = require('../models/playlist')
+const Track = require('../models/track')
 
 
 //Getting all
@@ -45,32 +46,61 @@ router.get('/search/:playlistSearch', async (req, res) => {
 //Create/Replace List given name
 router.put('/:playlist_name', async (req, res) => {
     const trackList = req.body;
-    console.log ("List: ", trackList);
 
     let totalDuration = 0;
-    let trackIDArr = [];
+    
     for(let i = 0; i < req.body.length; i++){
-        let tempDuration = req.body[i].track_duration.split(':');
+        let currentTrack
+        try { 
+            currentTrack = await Track.findOne({track_id: req.body[i]})
+            if (currentTrack == null) {
+                return res.status(404).json({ message: 'Cannot find track' })
+            }
+        } catch (err) {
+            return res.status(500).json({ message: err.message })
+        }
+        
+        let tempDuration = currentTrack[0].track_duration.split(':');
         let mins = parseInt(tempDuration[0])*60;
         let duration = mins + parseInt(tempDuration[1])
         totalDuration += duration; 
 
-        trackIDArr.push(req.body[i].track_id);
     }
+
 
     let playtime = Math.floor(totalDuration / 60) + ":" + totalDuration % 60
 
-    playlist = await Playlist.find({playlist_name: req.params.playlist_id})
-        if (playlist == null) {
-            const playlist = new Playlist ({
-                playlist_name: req.params.playlist_name,
-                '#tracks': req.body.length,
-                playtime: playtime,
-                track_list: trackIDArr
-            })
+    let playlist;
+    playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
+    if (playlist == null) {
+        const newPlaylist = new Playlist ({
+            playlist_name: req.params.playlist_name,
+            tracks_amount: req.body.length,
+            playtime: playtime,
+            track_list: trackList
+            
+        })
+        try {
+            const postPlaylist = await newPlaylist.save()
+            res.status(201).json(postPlaylist)
+        } catch (err){
+            res.status(400).json({ message: err.message })
         }
-    const playlist = res.playlist.find
 
+    } else {
+        
+        playlist.tracks_amount = req.body.length;
+        playlist.playtime = playtime;
+        playlist.track_list = trackList;
+
+        try {
+            const updatedPlaylist = await playlist.save()
+            res.json(updatedPlaylist)
+        } catch (err) {
+            res.status(400).json({ message: err.message})
+        }
+    }
+    
 })
 //Deleting one
 router.delete('/:playlist_name', getPlaylist, async (req, res) => {
@@ -85,7 +115,7 @@ router.delete('/:playlist_name', getPlaylist, async (req, res) => {
 async function getPlaylist(req, res, next) {
     let playlist
     try { 
-        playlist = await Playlist.find({playlist_id: req.params.playlist_id})
+        playlist = await Playlist.findOne({playlist_id: req.params.playlist_id})
         if (playlist == null) {
             return res.status(404).json({ message: 'Cannot find playlist' })
         }

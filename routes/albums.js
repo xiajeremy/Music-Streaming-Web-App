@@ -92,7 +92,7 @@ router.delete('/:album_id', getAlbum, async (req, res) => {
 async function getAlbum(req, res, next) {
     let album
     try { 
-        album = await Album.find({album_id: req.params.album_id})
+        album = await Album.findOne({album_id: req.params.album_id})
         if (album == null) {
             return res.status(404).json({ message: 'Cannot find album' })
         }

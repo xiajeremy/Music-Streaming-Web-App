@@ -118,7 +118,7 @@ router.delete('/:tracks_id', getTrack, async (req, res) => {
 async function getTrack(req, res, next) {
     let track
     try { 
-        track = await Track.find({track_id: req.params.track_id})
+        track = await Track.findOne({track_id: req.params.track_id})
         if (track == null) {
             return res.status(404).json({ message: 'Cannot find track' })
         }

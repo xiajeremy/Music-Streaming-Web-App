@@ -98,7 +98,7 @@ router.delete('/:genre_id', getGenre, async (req, res) => {
 async function getGenre(req, res, next) {
     let genre
     try { 
-        genre = await Genre.find({genre_id: req.params.genre_id})
+        genre = await Genre.findOne({genre_id: req.params.genre_id})
         //p => p.genre_id === parseInt(genre_id
         if (genre == null) {
             return res.status(404).json({ message: 'Cannot find genre' })
