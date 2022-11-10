@@ -12,6 +12,7 @@
 <!-- Place your content here -->
 <h1>SE 3316 Lab 3</h1>
 <h2>By Jeremy Xia</h2>
+<p id="status"> </p>
 
 
     <div class="search-container">
@@ -24,15 +25,18 @@
             <br><br>
 
             <input type="text" placeholder="Playlist Name" id="playlistName">
-            <button type="button" id=playlistButton>Create</button>
-            <button type="button" id=artistButton>Search</button>
+            <button type="button" id=createList>Create</button>
+            <button type="button" id=searchList>Search</button>
             <br><br>
-
-            <input type="text" placeholder="Playlist Name" id="playlistName">
+            
+            Select Playlist
+            <select name="playlist" id="playlist">
+            </select>
+            Select track IDs
             <select name="tracks" id="tracks" multiple>
             </select>
-            
-            <button type="button" id=artistButton>Update</button>
+
+            <button type="button" id=updateList>Update</button>
 
         </form>
     

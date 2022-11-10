@@ -15,7 +15,24 @@ router.get('/', async (req, res) => {
 })
 //Getting one
 router.get('/:playlist_name', getPlaylist, (req, res) => {
-    res.send(res.playlist.track_list)
+    res.send(res.playlist)
+})
+
+//Search function
+router.get('/search/:playlistSearch', async (req, res) => {
+    var allResults = await Playlist.find({'playlist_name': {$regex: new RegExp(req.params.playlistSearch, 'i')}});
+
+    var finalResults = [];
+    let counter = 0;
+    for(let i = 0; i < allResults.length; i++){
+        if(counter < 3){
+            finalResults.push(allResults[i].playlist_name);
+            counter ++;
+        } else {
+            break;
+        }
+    }
+    res.send(finalResults)
 })
 
 //Creating one
@@ -43,6 +60,7 @@ router.post('/:playlist_name', async (req, res) => {
         res.status(400).json({ message: err.message })
     }
 })
+
 
 //Replace List given name
 router.put('/:playlist_name', async (req, res) => {
@@ -112,7 +130,7 @@ router.delete('/:playlist_name', getPlaylist, async (req, res) => {
 async function getPlaylist(req, res, next) {
     let playlist
     try { 
-        playlist = await Playlist.findOne({playlist_id: req.params.playlist_id})
+        playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
         if (playlist == null) {
             return res.status(404).json({ message: 'Cannot find playlist' })
         }

@@ -25,3 +25,4 @@ app.use('/playlists', playlistRouter)
 app.use('/', express.static('static'));
 
 app.listen(3000, () => console.log('Server Started'));
+
