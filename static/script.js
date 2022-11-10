@@ -63,6 +63,7 @@ function artistSearch() {
                 fetch('/artists/' + artistIDs[i])
                 .then(res => res.json()
                 .then(data => {
+                    console.log(data);
                     
                     const item = document.createElement('li');
                     item.appendChild(document.createTextNode(`Artist Name: ${data.artist_name}`));

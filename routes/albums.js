@@ -90,7 +90,9 @@ router.delete('/:album_id', getAlbum, async (req, res) => {
 })
 
 async function getAlbum(req, res, next) {
-    
+    if(isNaN(req.params.album_id)){
+        return res.status(400).json({message: "Invalid entry. Input numbers only."});
+    }
 
     let album
     try { 

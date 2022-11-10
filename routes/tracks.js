@@ -132,7 +132,10 @@ router.delete('/:tracks_id', getTrack, async (req, res) => {
 
 //middleware
 async function getTrack(req, res, next) {
-    
+    if(isNaN(req.params.tracks_id)){
+        return res.status(400).json({message: "Invalid entry. Input numbers only."});
+    }
+
     let track
     try { 
         track = await Track.findOne({track_id: req.params.track_id})

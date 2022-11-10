@@ -48,17 +48,6 @@ router.get('/search/:playlistSearch', async (req, res) => {
 
 //Creating one
 router.post('/:playlist_name', async (req, res) => {
-    if(typeof req.params.playlist_name === 'string'){
-        if (req.params.playlist_name > 20){
-            return res.status(400).json({message: "Invalid entry. Input no more than 20 characters."});
-        }
-        for(let i = 0; i < req.params.playlist_name.length; i++){
-            if((/[\p{Letter}\p{Mark}]+/gu).test(req.params.playlist_name[i]) == false){
-                return res.status(400).json({message: "Invalid entry. Input language characters only."});
-            }
-        }
-    }
-
     let checkList;
     
     try {
@@ -86,16 +75,6 @@ router.post('/:playlist_name', async (req, res) => {
 
 //Replace List given name
 router.put('/:playlist_name', async (req, res) => {
-    if(typeof req.params.playlist_name === 'string'){
-        if (req.params.playlist_name > 20){
-            return res.status(400).json({message: "Invalid entry. Input no more than 20 characters."});
-        }
-        for(let i = 0; i < req.params.playlist_name.length; i++){
-            if((/[\p{Letter}\p{Mark}]+/gu).test(req.params.playlist_name[i]) == false){
-                return res.status(400).json({message: "Invalid entry. Input language characters only."});
-            }
-        }
-    }
     let playlist;
     
     try {

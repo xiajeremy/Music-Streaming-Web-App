@@ -115,7 +115,9 @@ router.delete('/:artist_id', getArtist, async (req, res) => {
 })
 
 async function getArtist(req, res, next) {
-
+    if(isNaN(req.params.artist_id)){
+        return res.status(400).json({message: "Invalid entry. Input numbers only."});
+    }
     let artist
     try { 
         artist = await Artist.findOne({artist_id: req.params.artist_id})
