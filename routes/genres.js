@@ -96,9 +96,6 @@ router.delete('/:genre_id', getGenre, async (req, res) => {
 
 //Middleware
 async function getGenre(req, res, next) {
-    if(isNaN(req.params.genre_id)){
-        return res.status(400).json({message: "Invalid entry. Input numbers only."});
-    }
     let genre
     try { 
         genre = await Genre.findOne({genre_id: req.params.genre_id})
