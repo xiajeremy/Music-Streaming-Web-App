@@ -30,7 +30,7 @@ function trackSearch() {
                 console.log(data);
                 
                 const item = document.createElement('li');
-                item.appendChild(document.createTextNode(`Track Name: ${data.track_title}, Artist Name: ${data.artist_name}, Album Name: ${data.artist_name}, Track ID:  ${data.track_id}`));
+                item.appendChild(document.createTextNode(`Track Name: ${data.track_title}, Artist Name: ${data.artist_name}, Album Name: ${data.album_title}, Track ID:  ${data.track_id}`));
                 l.appendChild(item);
                 
             }))
