@@ -37,8 +37,14 @@ router.get('/search/:trackSearch', async (req, res) => {
     });
 
     var finalResults = [];
-    for(let i = 0; i < 20; i++){
-        finalResults.push(allResults[i].track_id);
+    let counter = 0;
+    for(let i = 0; i < allResults.length; i++){
+        if(counter < 20){
+            finalResults.push(allResults[i].track_id);
+            counter ++;
+        } else {
+            break;
+        }
     }
     res.send(finalResults)
 })

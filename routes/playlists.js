@@ -44,7 +44,7 @@ router.post('/:playlist_name', async (req, res) => {
     }
 })
 
-//Create/Replace List given name
+//Replace List given name
 router.put('/:playlist_name', async (req, res) => {
     let playlist;
     
