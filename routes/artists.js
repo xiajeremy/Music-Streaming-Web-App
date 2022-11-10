@@ -30,6 +30,16 @@ router.get('/:artist_id', getArtist, (req, res) => {
 
 //QUESTION 5
 router.get('/search/:artistSearch', async (req, res) => {
+    if(typeof req.params.artistSearch === 'string'){
+        if (req.params.artistSearch > 20){
+            return res.status(400).json({message: "Invalid entry. Input no more than 20 characters."});
+        }
+        for(let i = 0; i < req.params.artistSearch.length; i++){
+            if((/[\p{Letter}\p{Mark}]+/gu).test(req.params.artistSearch[i]) == false){
+                return res.status(400).json({message: "Invalid entry. Input language characters only."});
+            }
+        }
+    }
     var allResults = await Artist.find({'artist_name': {$regex: new RegExp(req.params.artistSearch, 'i')}});
     
     var finalResults = [];
@@ -105,6 +115,9 @@ router.delete('/:artist_id', getArtist, async (req, res) => {
 })
 
 async function getArtist(req, res, next) {
+    if(isNaN(req.params.artist_id)){
+        return res.status(400).json({message: "Invalid entry. Input numbers only."});
+    }
     let artist
     try { 
         artist = await Artist.findOne({artist_id: req.params.artist_id})

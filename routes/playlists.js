@@ -20,6 +20,17 @@ router.get('/:playlist_name', getPlaylist, (req, res) => {
 
 //Search function
 router.get('/search/:playlistSearch', async (req, res) => {
+    if(typeof req.params.playlistSearch === 'string'){
+        if (req.params.playlistSearch > 20){
+            return res.status(400).json({message: "Invalid entry. Input no more than 20 characters."});
+        }
+        for(let i = 0; i < req.params.playlistSearch.length; i++){
+            if((/[\p{Letter}\p{Mark}]+/gu).test(req.params.playlistSearch[i]) == false){
+                return res.status(400).json({message: "Invalid entry. Input language characters only."});
+            }
+        }
+    }
+
     var allResults = await Playlist.find({'playlist_name': {$regex: new RegExp(req.params.playlistSearch, 'i')}});
 
     var finalResults = [];
@@ -128,6 +139,16 @@ router.delete('/:playlist_name', getPlaylist, async (req, res) => {
 })
 
 async function getPlaylist(req, res, next) {
+    if(typeof req.params.playlist_name === 'string'){
+        if (req.params.playlist_name > 20){
+            return res.status(400).json({message: "Invalid entry. Input no more than 20 characters."});
+        }
+        for(let i = 0; i < req.params.playlist_name.length; i++){
+            if((/[\p{Letter}\p{Mark}]+/gu).test(req.params.playlist_name[i]) == false){
+                return res.status(400).json({message: "Invalid entry. Input language characters only."});
+            }
+        }
+    }
     let playlist
     try { 
         playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
