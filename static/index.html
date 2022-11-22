@@ -27,6 +27,15 @@
             <input type="text" placeholder="Playlist Name" id="playlistName">
             <button type="button" id=createList>Create</button>
             <button type="button" id=searchList>Search</button>
+
+            Sort by: 
+            <select name="sortResults" id="sortResults">
+                <option value="0" selected="selected">Track</option>
+                <option value="1">Artist</option>
+                <option value="2">Album</option>
+                <option value="3">Length</option>
+            </select>
+            
             <br><br>
             
             Select Playlist
@@ -39,15 +48,10 @@
             <button type="button" id=updateList>Update</button>
 
         </form>
-    
+        
+        
         <ol id="searchResults"></ol>
     </div>
-    <div class = "playlist-container">
-        
-
-    </div>
-    
-
 <p>
     
 

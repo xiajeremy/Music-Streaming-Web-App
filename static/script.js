@@ -15,8 +15,22 @@ trackInput.addEventListener("keypress", function(event) {
 });
 
 
+let resultsData = [];
+
+function sortFunction(a, b) {
+    let sortBy = document.getElementById("sortResults").value;    
+    if (a[sortBy] === b[sortBy]) {
+        return 0;
+    }
+    else {
+        return (a[sortBy] < b[sortBy]) ? -1 : 1;
+    }
+}
+
 function trackSearch() {
+    
     let searchInput = document.getElementById("trackSearch").value;
+    resultsData.length = 0;
     fetch('/tracks/search/' + searchInput)
     .then(res => res.json()
     .then(trackIDs => {
@@ -29,12 +43,22 @@ function trackSearch() {
             .then(data => {
                 console.log(data);
                 
-                const item = document.createElement('li');
-                item.appendChild(document.createTextNode(`Track Name: ${data.track_title}, Artist Name: ${data.artist_name}, Album Name: ${data.album_title}, Track ID:  ${data.track_id}`));
-                l.appendChild(item);
+                resultsData.push([data.track_title, data.artist_name, data.album_title, data.track_duration, data.track_id])
                 
+                if(i == trackIDs.length - 1){
+                    resultsData.sort(sortFunction);
+                    for(let j = 0; j < trackIDs.length; j++){
+                        const item = document.createElement('li');
+                        console.log(resultsData[j])
+                        item.appendChild(document.createTextNode(`Track Name: ${resultsData[j][0]}, Artist Name: ${resultsData[j][1]}, Album Name: ${resultsData[j][2]}, Track Length: ${resultsData[j][3]}, Track ID:  ${resultsData[j][4]}`));
+                        l.appendChild(item);
+                    }
+                }
+    
             }))
         }
+        
+        console.log("done")
     }))
 }
 
@@ -50,6 +74,8 @@ artistInput.addEventListener("keypress", function(event) {
 });
 
 function artistSearch() {
+    resultsData.length = 0;
+
     let searchInput = document.getElementById("artistSearch").value;
     fetch('/artists/search/' + searchInput)
     .then(res => res.json()
@@ -64,10 +90,19 @@ function artistSearch() {
                 .then(res => res.json()
                 .then(data => {
                     console.log(data);
+                    resultsData.push(data.artist_name)
+                
+                    if(i == 19){
+                        resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+                        for(let j = 0; j < 20; j++){
+                            const item = document.createElement('li');
+                            console.log(resultsData[j])
+                            item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
+                            l.appendChild(item);
+                        }
+                    }
                     
-                    const item = document.createElement('li');
-                    item.appendChild(document.createTextNode(`Artist Name: ${data.artist_name}`));
-                    l.appendChild(item); 
+
                 }))
                 counter ++;
 
@@ -90,6 +125,8 @@ playlistInput.addEventListener("keypress", function(event) {
 
 
 function playlistSearch() {
+    resultsData.length = 0;
+
     let searchInput = document.getElementById("playlistName").value;
     fetch('/playlists/search/' + searchInput) //Returns array of playlist names
     .then(res => res.json()
@@ -105,13 +142,14 @@ function playlistSearch() {
                 
                 const item = document.createElement('li');
                 item.appendChild(document.createTextNode(`Playlist Name: ${data.playlist_name}, Number of Tracks: ${data.tracks_amount}, Playlist duration: ${data.playtime}`));
-                const listTracks = document.createElement('ol');
+                const listTracks = document.createElement('ul');
 
                 for(let j = 0; j < data.track_list.length; j ++){
                     console.log(data.track_list[j])
                     fetch('/tracks/' + data.track_list[j]) //Returns a Track object
                     .then(res => res.json()
                     .then(tracks => {
+                        
                         const listTracksItem = document.createElement('li');
                         listTracksItem.appendChild(document.createTextNode(`Track Title: ${tracks.track_title}, Artist Name: ${tracks.artist_name}, Album Name: ${tracks.artist_name}, Duration: ${tracks.track_duration}`));
                         listTracks.appendChild(listTracksItem);

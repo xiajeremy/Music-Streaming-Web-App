@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+mongoose.connect("mongodb+srv://ec2-user:Welcome2JX@cluster0.7h7yqij.mongodb.net/lab3", { useNewUrlParser: true });
 const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to Database'));
