@@ -75,34 +75,40 @@ artistInput.addEventListener("keypress", function(event) {
 
 function artistSearch() {
     resultsData.length = 0;
-
+    counter = 0;
     let searchInput = document.getElementById("artistSearch").value;
     fetch('/artists/search/' + searchInput)
     .then(res => res.json()
     .then(artistIDs => {
         const l = document.getElementById('searchResults');
         removeAllChildNodes(l)
+        for(let i = 0; i < artistIDs.length; i ++){
+            if(counter == 20){
+                break;
+            } else { 
+                counter ++;
+                fetch('/artists/' + artistIDs[i])
+                .then(res => res.json()
+                .then(data => {
+                    console.log(data);
+                    resultsData.push(data.artist_name)
+                    
 
-        for(let i = 0; i < 20; i ++){
-            fetch('/artists/' + artistIDs[i])
-            .then(res => res.json()
-            .then(data => {
-                console.log(data);
-                resultsData.push(data.artist_name)
-            
-                if(i == 19){
-                    resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
-                    for(let j = 0; j < 20; j++){
-                        const item = document.createElement('li');
-                        console.log(resultsData[j])
-                        item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
-                        l.appendChild(item);
-                    }
-                } 
-                
-                
+                    if(i == 19 || i == artistIDs.length-1){
+                        resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+                        for(let j = 0; j < 20; j++){
+                            if(j == artistIDs.length){
+                                break;
+                            }
+                            const item = document.createElement('li');
+                            console.log(resultsData[j])
+                            item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
+                            l.appendChild(item);
+                        }
+                    } 
 
-            }))
+                }))
+            }
         }
     }))
 }
