@@ -85,7 +85,7 @@ function artistSearch() {
 
         let counter = 0;
         for(let i = 0; i < artistIDs.length; i ++){
-            if(counter < 20){
+            if(counter < 20 && counter < artistIDs.length){
                 fetch('/artists/' + artistIDs[i])
                 .then(res => res.json()
                 .then(data => {
