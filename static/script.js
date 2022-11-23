@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("test");
     populateTracks();
     populatePlaylist();
+    console.log("DOM loaded");
 });
 
 document.getElementById("trackButton").addEventListener('click', trackSearch);
@@ -83,32 +83,26 @@ function artistSearch() {
         const l = document.getElementById('searchResults');
         removeAllChildNodes(l)
 
-        let counter = 0;
-        for(let i = 0; i < artistIDs.length; i ++){
-            if(counter < 20 && counter < artistIDs.length){
-                fetch('/artists/' + artistIDs[i])
-                .then(res => res.json()
-                .then(data => {
-                    console.log(data);
-                    resultsData.push(data.artist_name)
-                
-                    if(i == 19){
-                        resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
-                        for(let j = 0; j < 20; j++){
-                            const item = document.createElement('li');
-                            console.log(resultsData[j])
-                            item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
-                            l.appendChild(item);
-                        }
+        for(let i = 0; i < 20; i ++){
+            fetch('/artists/' + artistIDs[i])
+            .then(res => res.json()
+            .then(data => {
+                console.log(data);
+                resultsData.push(data.artist_name)
+            
+                if(i == 19){
+                    resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+                    for(let j = 0; j < 20; j++){
+                        const item = document.createElement('li');
+                        console.log(resultsData[j])
+                        item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
+                        l.appendChild(item);
                     }
-                    
+                } 
+                
+                
 
-                }))
-                counter ++;
-
-            } else {
-                break;
-            }
+            }))
         }
     }))
 }
