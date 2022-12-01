@@ -1,5 +1,5 @@
 {
-  "name": "se3316-jxia47-lab3",
+  "name": "se3316-jxia47-mpate432-dyilmaz2-lab4",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jxia47/se3316-jxia47-lab3.git"
+    "url": "git+https://github.com/jxia47/se3316-jxia47-mpate432-dyilmaz2-lab4.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jxia47/se3316-jxia47-lab3/issues"
+    "url": "https://github.com/jxia47/se3316-jxia47-mpate432-dyilmaz2-lab4/issues"
   },
-  "homepage": "https://github.com/jxia47/se3316-jxia47-lab3#readme",
+  "homepage": "https://github.com/jxia47/se3316-jxia47-mpate432-dyilmaz2-lab4#readme",
   "dependencies": {
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
