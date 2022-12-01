@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const Playlist = require('../models/playlist')
 const Track = require('../models/track')
+const { param, validationResult } = require('express-validator');
 
 
 //Getting all
@@ -35,8 +36,14 @@ router.get('/search/:playlistSearch', async (req, res) => {
     res.send(finalResults)
 })
 
+
 //Creating one
-router.post('/:playlist_name', async (req, res) => {
+router.post('/:playlist_name', param('playlist_name').isLength({ max: 20 }).escape(), async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     let checkList;
     
     try {
@@ -59,6 +66,7 @@ router.post('/:playlist_name', async (req, res) => {
     } catch (err){
         res.status(400).json({ message: err.message })
     }
+    
 })
 
 
@@ -117,6 +125,23 @@ router.put('/:playlist_name', async (req, res) => {
 
     
 })
+
+//Updating one (use patch to update certain parts instead of replacing entire resource)
+router.patch('/:playlist_name', getPlaylist, async (req, res) => {
+    if (req.body.playlist_name != null) {
+        res.playlist.playlist_name = req.body.playlist_name
+    }
+    res.playlist.last_edit = new Date().toLocaleString();
+    
+    try {
+        const updatedList = await res.playlist.save()
+        res.json(updatedList)
+    } catch (err) {
+        res.status(400).json({ message: err.message})
+    }
+})
+
+
 //Deleting one
 router.delete('/:playlist_name', getPlaylist, async (req, res) => {
     try {
@@ -141,5 +166,6 @@ async function getPlaylist(req, res, next) {
     res.playlist = playlist
     next()
 }
+
 
 module.exports = router

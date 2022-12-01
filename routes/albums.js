@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const Album = require('../models/album')
 const app = express();
+const { check, validationResult } = require('express-validator');
+
 const cors = require('cors');
 let bodyParser = require('body-parser');
 let multer = require('multer');

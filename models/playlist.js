@@ -16,6 +16,9 @@ const playlistSchema = new mongoose.Schema({
     track_list: {
         type: Array, 
         "default": []
+    },
+    last_edit:{
+        type: Date
     }
 })
 
