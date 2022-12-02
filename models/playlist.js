@@ -18,7 +18,10 @@ const playlistSchema = new mongoose.Schema({
         "default": []
     },
     last_edit:{
-        type: Date
+        type: String
+    },
+    description: {
+        type: String
     }
 })
 
