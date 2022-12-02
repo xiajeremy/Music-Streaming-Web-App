@@ -15,6 +15,9 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+var stringSimilarity = require("string-similarity");
+
+
 //Getting all
 router.get('/', async (req, res) => {
     try {
@@ -31,12 +34,16 @@ router.get('/:track_id', getTrack, (req, res) => {
 
 //QUESTION 4
 router.get('/search/:trackSearch', async (req, res) => {
-    var allResults = await Track.find({
+
+    stringSimilarity.findBestMatch(req.params.trackSearch, )
+
+    Track.find()
+    /*var allResults = await Track.find({
         $or: [
             {'track_title': {$regex: new RegExp(req.params.trackSearch, 'i')}},
             {'album_title': {$regex: new RegExp(req.params.trackSearch, 'i')}}
         ]
-    });
+    });*/
 
     var finalResults = [];
     let counter = 0;

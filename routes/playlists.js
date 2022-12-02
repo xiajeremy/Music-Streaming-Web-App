@@ -3,6 +3,7 @@ const router = express.Router()
 const Playlist = require('../models/playlist')
 const Track = require('../models/track')
 const { param, validationResult } = require('express-validator');
+var stringSimilarity = require("string-similarity");
 
 
 //Getting all
@@ -82,16 +83,18 @@ router.put('/:playlist_name', async (req, res) => {
     } catch (err){
         res.status(400).json({ message: err.message })
     }
+    
+    
 
 
-    const trackList = req.body;
+    const trackList = req.body.track_list;
 
     let totalDuration = 0;
     
-    for(let i = 0; i < req.body.length; i++){
+    for(let i = 0; i < trackList.length; i++){
         let currentTrack
         try { 
-            currentTrack = await Track.findOne({track_id: req.body[i]})
+            currentTrack = await Track.findOne({track_id: trackList[i]})
             if (currentTrack == null) {
                 return res.status(404).json({ message: 'Cannot find track' })
             }
@@ -112,9 +115,10 @@ router.put('/:playlist_name', async (req, res) => {
 
     
 
-    playlist.tracks_amount = req.body.length;
+    playlist.tracks_amount = trackList.length;
     playlist.playtime = playtime;
     playlist.track_list = trackList;
+    playlist.last_edit = new Date().toLocaleString();
 
     try {
         const updatedPlaylist = await playlist.save()
@@ -122,24 +126,8 @@ router.put('/:playlist_name', async (req, res) => {
     } catch (err) {
         res.status(400).json({ message: err.message})
     }
-
-    
 })
 
-//Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:playlist_name', getPlaylist, async (req, res) => {
-    if (req.body.playlist_name != null) {
-        res.playlist.playlist_name = req.body.playlist_name
-    }
-    res.playlist.last_edit = new Date().toLocaleString();
-    
-    try {
-        const updatedList = await res.playlist.save()
-        res.json(updatedList)
-    } catch (err) {
-        res.status(400).json({ message: err.message})
-    }
-})
 
 
 //Deleting one
