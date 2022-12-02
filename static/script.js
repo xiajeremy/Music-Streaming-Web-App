@@ -50,7 +50,10 @@ function trackSearch() {
                     for(let j = 0; j < trackIDs.length; j++){
                         const item = document.createElement('li');
                         console.log(resultsData[j])
+                        var button = document.createElement("button");
+                        button.innerHTML = "▶";
                         item.appendChild(document.createTextNode(`Track Name: ${resultsData[j][0]}, Artist Name: ${resultsData[j][1]}, Album Name: ${resultsData[j][2]}, Track Length: ${resultsData[j][3]}, Track ID:  ${resultsData[j][4]}`));
+                        item.appendChild(button);
                         l.appendChild(item);
                     }
                 }
@@ -196,16 +199,21 @@ function playlistUpdate() {
         }
     }
     console.log("tracks: "+tracklistInput);
+
+    //MAKE THESE VARIABLES IN FRONT END HTML
+    let playlistDescription = document.getElementById("description").value;
+    var reqBody = {playlist_name: playlistName, track_list: tracklistInput, description: playlistDescription}
+
     fetch('/playlists/' + playlistName, {
         method: 'PUT',
         headers: {'Content-type': 'application/json'},
-        body: JSON.stringify(tracklistInput)
+        body: JSON.stringify(reqBody)
     }) //Returns array of playlist names
     .then(res => {
         if(res.ok ){
             res.json()
             .then(data => console.log(data))
-            .catch(err => console.log('Failed to get object'))  
+            .catch(err => console.log('Failed to get object'))
         } 
         else {
             console.log('Error: ', res.status)

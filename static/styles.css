@@ -1,75 +1,185 @@
 /*DIsplay*/
 body {
-    background-color: lightblue;
+    background-color: rgb(55, 55, 55);
 }
 
   
 h1, h2 {
-  color: rgb(60, 90, 166);
-  margin-left: 20px;
-  
-}
-ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-
-}
-
-li a {
-  float: left;
-  display: block;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: rgb(0, 195, 255);
   text-align: center;
-  padding: 8px;
-  text-decoration: none;
-  color:rgb(60, 90, 166);
-}
-li a:hover {
-  background-color: rgb(199, 160, 8);
   
 }
+
+.track-search button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 2px;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: rgb(55, 55, 55);
+  border-width: 3px;
+  padding: 10px;
+  background-color: rgb(0, 195, 255);
+  color: rgb(55,55,55);
+  transition: all .3s ease; /* back to normal */
+}
+
+.track-search button:hover {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 25px;
+  border-style: solid;
+  border-color: rgb(0, 195, 255);
+  border-width: 3px;
+  padding: 10px;
+  background-color: rgb(55, 55, 55);
+  color: white;
+  transform: translate3D(0,-1px,0) scale(1.04);
+  transition: all .4s ease; /* zoom in */
+}
+
+div.track-search{
+  margin: auto;
+  width: 45%;  
+}
+
+.track-search input[type=text] {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 15px;
+  width: 300px;
+  font-size: 13px;
+  border: solid;
+  border-radius: 25px;
+  border-color: rgb(0, 195, 255);
+}
+
+div.playlist-tab{
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgb(75, 75, 75);
+  margin-top: 35px;
+  background-color: rgb(0, 195, 255);
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 30px;
+}
+
+.playlist-tab select {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 10px;
+  width: 150px;
+  font-size: 13px;
+  border-radius: 20px;
+  border: solid;
+  border-color: rgb(0, 170, 220);
+}
+
+div.create-playlist{
+ 
+}
+
+.playlist-tab button {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin: 2px;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: rgb(0, 170, 220);
+  border-width: 3px;
+  padding: 7px;
+  background-color: rgb(55, 55, 55);
+  color: white;
+  transition: all .3s ease; /* back to normal */
+}
+
+.playlist-tab button:hover {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  border-radius: 25px;
+  border-style: solid;
+  border-color: rgb(55, 55, 55);
+  border-width: 3px;
+  padding: 7px;
+  background-color: rgb(0, 170, 220);
+  color: white;
+  transform: translate3D(0,-1px,0) scale(1.04);
+  transition: all .4s ease; /* zoom in */
+}
+
+.playlist-tab input[type=text] {
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 10px;
+  width: 200px;
+  font-size: 13px;
+  border: solid;
+  border-radius: 25px;
+  border-color: rgb(0, 170, 220);
+}
+
+div.sort-by{
+  position: absolute;
+  right: 0;
+  padding-right: 25px;
+}
+
+div.results-list{
+ 
+}
+
+li{
+  list-style: none;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+  background-color: rgb(35, 35, 35);
+  padding: 15px;
+  color: white;
+  border-radius: 30px;
+  margin: 5px;
+}
+
+li:hover {
+  list-style: none;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  background-color: rgb(0, 195, 255);
+  padding: 15px;
+  color: white;
+  border-radius: 30px;
+  margin: 5px;
+}
+
+li button{
+  float: right;
+  font-size: larger;
+  border-radius: 50%;
+  border-color: white;
+  color: white;
+  width: 35px;
+  padding: 3px;
+  background-color: rgb(0, 195, 255);
+  transition: all .3s ease; /* back to normal */
+}
+
+li button:hover{
+  float: right;
+  font-size: larger;
+  border-radius: 50%;
+  border-color: white;
+  color: white;
+  width: 35px;
+  padding: 3px;
+  background-color: rgb(0, 125, 165);
+  transition: all .4s ease; /* zoom in */
+}
+
+ul{
+  list-style: none;
+  background-color: rgb(35, 35, 35);
+  padding: 10px;
+  color: white;
+  border-radius: 20px;
+  margin: 5px;
+}
+
 img {
   background-color: rgb(42, 117, 187);
   padding: 16px;
 }
 
-/*Search Bar*/
-.search-container {
-  overflow: hidden;
-}
 
 
-
-.search-container input[type=text] {
-  padding: 6px;
-  margin-top: 8px;
-  font-size: 17px;
-  border: none;
-}
-
-.search-container button {
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  background: #ddd;
-  font-size: 17px;
-  border: none;
-  cursor: pointer;
-}
-
-
-
-.search-container button:hover {
-  background: #ccc;
-}
-
-
-select {
-  padding: 6px;
-  margin-top: 8px;
-  margin-right: 16px;
-  font-size: 17px;
-  border: none;
-  width: 100px;
-}

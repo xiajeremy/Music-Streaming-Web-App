@@ -11,23 +11,34 @@
 <body>
 <!-- Place your content here -->
 <h1>SE 3316 Lab 4</h1>
-<h2>By Jeremy Xia, Malay Patel, Derin Yilmaz</h2>
+<h2>By Jeremy Xia, Malay Patel and Derin Yilmaz</h2>
 <p id="status"> </p>
 
 
     <div class="search-container">
         <form>
-            <input type="text" placeholder="Search Tracks" id="trackSearch">
-            <button type="button" id=trackButton>Search</button>
+            <div class = "track-search"> 
+                <input type="text" placeholder="Search Tracks" id="trackSearch">
+                <button type="button" id=trackButton>Search</button>
+    
+                <input type="text" placeholder="Search Artists" id="artistSearch">
+                <button type="button" id=artistButton>Search</button>
+            </div>
+    </div>     
 
-            <input type="text" placeholder="Search Artists" id="artistSearch">
-            <button type="button" id=artistButton>Search</button>
-            <br><br>
-
+    <div class="playlist-tab">
+        <div class="create-playlist">
             <input type="text" placeholder="Playlist Name" id="playlistName">
             <button type="button" id=createList>Create</button>
             <button type="button" id=searchList>Search</button>
+        </div>
 
+        <div class="sort-by">
+            Select Playlist
+            <select name="playlist" id="playlist">
+            </select>
+
+                
             Sort by: 
             <select name="sortResults" id="sortResults">
                 <option value="0" selected="selected">Track</option>
@@ -35,28 +46,24 @@
                 <option value="2">Album</option>
                 <option value="3">Length</option>
             </select>
-            
-            <br><br>
-            
-            Select Playlist
-            <select name="playlist" id="playlist">
-            </select>
-            Select track IDs
-            <select name="tracks" id="tracks" multiple>
-            </select>
+        </div>
+    </div>
 
-            <button type="button" id=updateList>Update</button>
+    <!--Select track IDs-->
+    <!--<select name="tracks" id="tracks" multiple></select>-->
+    <button type="button" id=updateList>Update</button>
 
-        </form>
-        
-        
+    </form>
+    <div class="results-list">
         <ol id="searchResults"></ol>
     </div>
+    
+
 <p>
     
 
 </p> 
-Website design by Jeremy Xia
+<!--Website design by Jeremy Xia, Malay Patel and Derin Yilmaz-->
 <!-- Embedded JavaScript go here -->
 <script src="script.js"></script>
 
