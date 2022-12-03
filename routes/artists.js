@@ -16,6 +16,8 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
+var stringSimilarity = require("string-similarity");
+
 
 //Getting all
 router.get('/', async (req, res) => {
