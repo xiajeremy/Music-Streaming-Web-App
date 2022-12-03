@@ -33,13 +33,38 @@ router.get('/:artist_id', getArtist, (req, res) => {
 
 //QUESTION 5
 router.get('/search/:artistSearch', async (req, res) => {
-    var allResults = await Artist.find({'artist_name': {$regex: new RegExp(req.params.artistSearch, 'i')}});
+    var allResults = await Artist.find({}, {artist_name: 1, artist_id: 1})
+
+    allResultsStr = JSON.stringify(allResults);
+    allResultsArr = allResultsStr.split('},{');
+
+    softSearch = stringSimilarity.findBestMatch(req.params.artistSearch, allResultsArr);
+
+    let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
+    
+    console.log(sortedSearch)
+
     
     var finalResults = [];
-    for(let i = 0; i < allResults.length - 1; i++){
-        finalResults.push(allResults[i].artist_id);
+    let counter = 0;
+
+    for(let i = 0; i < sortedSearch.length; i++){
+        if(counter < 20){
+            let searchIndex = allResultsArr.indexOf(sortedSearch[i].target)
+            console.log(sortedSearch[i].target)
+            console.log(searchIndex)
+            console.log(allResultsArr[searchIndex])
+            finalResults.push(allResults[searchIndex].artist_id);
+            counter++;
+        } else {
+            break;
+        }
     }
+    console.log(finalResults)
+
+    
     res.send(finalResults)
+
 })
 
 //Creating one

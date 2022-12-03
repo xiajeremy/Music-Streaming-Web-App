@@ -22,18 +22,32 @@ router.get('/:playlist_name', getPlaylist, (req, res) => {
 
 //Search function
 router.get('/search/:playlistSearch', async (req, res) => {
-    var allResults = await Playlist.find({'playlist_name': {$regex: new RegExp(req.params.playlistSearch, 'i')}});
 
+    var allResults = await Playlist.find({}, {playlist_name: 1, description: 1})
+
+    allResultsStr = JSON.stringify(allResults);
+    allResultsArr = allResultsStr.split('},{');
+
+    softSearch = stringSimilarity.findBestMatch(req.params.playlistSearch, allResultsArr);
+
+    let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
+    
+    console.log(sortedSearch)
+
+    
     var finalResults = [];
-    let counter = 0;
-    for(let i = 0; i < allResults.length; i++){
-        if(counter < 3){
-            finalResults.push(allResults[i].playlist_name);
-            counter ++;
-        } else {
-            break;
-        }
+    for(let i = 0; i < sortedSearch.length; i++){
+        
+        let searchIndex = allResultsArr.indexOf(sortedSearch[i].target)
+        console.log(sortedSearch[i].target)
+        console.log(searchIndex)
+        console.log(allResultsArr[searchIndex])
+        finalResults.push(allResults[searchIndex].playlist_name);
+
     }
+    console.log(finalResults)
+
+    
     res.send(finalResults)
 })
 
