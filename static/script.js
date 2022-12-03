@@ -52,6 +52,8 @@ function trackSearch() {
                         console.log(resultsData[j])
                         var button = document.createElement("button");
                         button.innerHTML = "▶";
+                        button.setAttribute('onclick',`window.open("https://www.youtube.com/results?search_query=${resultsData[j][0]}", "_blank")`);
+
                         item.appendChild(document.createTextNode(`Track Name: ${resultsData[j][0]}, Artist Name: ${resultsData[j][1]}, Album Name: ${resultsData[j][2]}, Track Length: ${resultsData[j][3]}, Track ID:  ${resultsData[j][4]}`));
                         item.appendChild(button);
                         l.appendChild(item);
@@ -86,32 +88,26 @@ function artistSearch() {
         const l = document.getElementById('searchResults');
         removeAllChildNodes(l)
         for(let i = 0; i < artistIDs.length; i ++){
-            if(counter == 20){
-                break;
-            } else { 
-                counter ++;
-                fetch('/artists/' + artistIDs[i])
-                .then(res => res.json()
-                .then(data => {
-                    console.log(data);
-                    resultsData.push(data.artist_name)
-                    
+            
+            fetch('/artists/' + artistIDs[i])
+            .then(res => res.json()
+            .then(data => {
+                console.log(data);
+                resultsData.push(data.artist_name)
+                
 
-                    if(i == 19 || i == artistIDs.length-1){
-                        resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
-                        for(let j = 0; j < 20; j++){
-                            if(j == artistIDs.length){
-                                break;
-                            }
-                            const item = document.createElement('li');
-                            console.log(resultsData[j])
-                            item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
-                            l.appendChild(item);
-                        }
-                    } 
+                if(i == artistIDs.length-1){
+                    resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+                    for(let j = 0; j < artistIDs.length; j++){
+                        const item = document.createElement('li');
+                        console.log(resultsData[j])
+                        item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
+                        l.appendChild(item);
+                    }
+                } 
 
-                }))
-            }
+            }))
+            
         }
     }))
 }
