@@ -37,7 +37,7 @@ function trackSearch() {
         const l = document.getElementById('searchResults');
         removeAllChildNodes(l)
 
-        for(let i = 0; i < trackIDs.length; i ++){
+        for(let i = 0; i < trackIDs.length; i++){
             fetch('/tracks/' + trackIDs[i])
             .then(res => res.json()
             .then(data => {
@@ -143,11 +143,22 @@ function playlistSearch() {
             .then(data => {
                 console.log(data);
                 
-                const item = document.createElement('li');
-                item.appendChild(document.createTextNode(`Playlist Name: ${data.playlist_name}, Number of Tracks: ${data.tracks_amount}, Playlist duration: ${data.playtime}`));
-                const listTracks = document.createElement('ul');
+                const item = document.createElement('div');
+                item.className = "playlist-result";
+                const header = document.createElement('h1')
+                header.className = "playlist-name";
+                
+                header.appendChild(document.createTextNode(`${data.playlist_name}`))
+                item.appendChild(header);
 
-                for(let j = 0; j < data.track_list.length; j ++){
+                const playlistAbout = document.createElement('p');
+                playlistAbout.className = "playlist-about";
+                item.appendChild(playlistAbout)
+                playlistAbout.appendChild(document.createTextNode(`${data.tracks_amount} tracks    |    Playlist duration: ${data.playtime}`));
+                
+                const listTracks = document.createElement('ul')
+
+                for(let j = 0; j < data.track_list.length; j++){
                     console.log(data.track_list[j])
                     fetch('/tracks/' + data.track_list[j]) //Returns a Track object
                     .then(res => res.json()
@@ -155,7 +166,10 @@ function playlistSearch() {
                         
                         const listTracksItem = document.createElement('li');
                         listTracksItem.appendChild(document.createTextNode(`Track Title: ${tracks.track_title}, Artist Name: ${tracks.artist_name}, Album Name: ${tracks.artist_name}, Duration: ${tracks.track_duration}`));
-                        listTracks.appendChild(listTracksItem);
+                        var button = document.createElement("button");
+                        button.innerHTML = "▶";
+                        listTracks.appendChild(listTracksItem)
+                        .appendChild(button);
                     }))
                 }
 
