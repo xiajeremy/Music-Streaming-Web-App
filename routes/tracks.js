@@ -35,26 +35,34 @@ router.get('/:track_id', getTrack, (req, res) => {
 //QUESTION 4
 router.get('/search/:trackSearch', async (req, res) => {
 
-    stringSimilarity.findBestMatch(req.params.trackSearch, )
+    var allResults = await Track.find({}, {track_id: 1, track_title: 1, album_title: 1 })
 
-    Track.find()
-    /*var allResults = await Track.find({
-        $or: [
-            {'track_title': {$regex: new RegExp(req.params.trackSearch, 'i')}},
-            {'album_title': {$regex: new RegExp(req.params.trackSearch, 'i')}}
-        ]
-    });*/
+    allResultsStr = JSON.stringify(allResults);
+    allResultsArr = allResultsStr.split('},{');
 
+    softSearch = stringSimilarity.findBestMatch(req.params.trackSearch, allResultsArr);
+
+    let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
+    
+    console.log(sortedSearch)
+
+    
     var finalResults = [];
     let counter = 0;
-    for(let i = 0; i < allResults.length; i++){
+    for(let i = 0; i < sortedSearch.length; i++){
         if(counter < 20){
-            finalResults.push(allResults[i].track_id);
+            let searchIndex = allResultsArr.indexOf(sortedSearch[i].target)
+            console.log(sortedSearch[i].target)
+            console.log(searchIndex)
+            console.log(allResultsArr[searchIndex])
+            finalResults.push(allResults[searchIndex].track_id);
             counter ++;
         } else {
             break;
         }
     }
+    console.log(finalResults)
+
     res.send(finalResults)
 })
 
