@@ -8,6 +8,20 @@ document.getElementById("searchButton").addEventListener('click', trackSearch);
 document.getElementById("searchButton").addEventListener('click', artistSearch);
 document.getElementById("searchButton").addEventListener('click', playlistSearch);
 
+document.getElementById("searchBy").addEventListener('change', searchBy);
+document.getElementById("sortResults").addEventListener('change', searchBy);
+
+function searchBy(){
+    let searchByValue = document.getElementById("searchBy").value;
+    if(searchByValue == 0){
+        showTracks();
+    }else if(searchByValue == 1){
+        showArtists();
+    }else {
+        showPlaylists();
+    }
+}
+
 var userInput = document.getElementById("userSearch");
 
 userInput.addEventListener("keypress", function(event) {
@@ -38,8 +52,8 @@ let tracksByOther = [];
 function trackSearch() {
     
     let searchInput = document.getElementById("userSearch").value;
+    
     tracksByRelevance.length = 0;
-    tracksByOther.length = 0;
 
 
     fetch('/tracks/search/' + searchInput)
@@ -51,12 +65,12 @@ function trackSearch() {
             fetch('/tracks/' + trackIDs[i])
             .then(res => res.json()
             .then(data => {
-                console.log(data);
+                console.log(i+": "+data);
                 
-                tracksByRelevance.push([data.track_title, data.artist_name, data.album_title, data.track_duration, data.track_id])
+                tracksByRelevance[i] = [data.track_title, data.artist_name, data.album_title, data.track_duration, data.track_id];
                 
                 if(i == trackIDs.length - 1){
-                    showTracks();
+                    searchBy();
                 }
     
             }))
@@ -66,55 +80,52 @@ function trackSearch() {
 }
 
 function showTracks(){
-    const l = document.getElementById('trackResults');
+    tracksByOther.length = 0;
+    const l = document.getElementById('searchResults');
     removeAllChildNodes(l)
     tracksByRelevance.forEach(cloneArray);
     function cloneArray(value) {
         tracksByOther.push(value); 
     }
     tracksByOther.sort(sortFunction);
-    for(let j = 0; j < trackIDs.length; j++){
+    for(let j = 0; j < tracksByRelevance.length; j++){
         const item = document.createElement('li');
-        console.log(tracksByRelevance[j])
+        console.log(tracksByOther[j])
         var button = document.createElement("button");
         button.innerHTML = "▶";
-        button.setAttribute('onclick',`window.open("https://www.youtube.com/results?search_query=${tracksByRelevance[j][0]}", "_blank")`);
+        button.setAttribute('onclick',`window.open("https://www.youtube.com/results?search_query=${tracksByOther[j][0]}", "_blank")`);
 
-        item.appendChild(document.createTextNode(`Track Name: ${tracksByRelevance[j][0]}, Artist Name: ${tracksByRelevance[j][1]}, Album Name: ${tracksByRelevance[j][2]}, Track Length: ${tracksByRelevance[j][3]}, Track ID:  ${tracksByRelevance[j][4]}`));
+        item.appendChild(document.createTextNode(`Track Name: ${tracksByOther[j][0]}, Artist Name: ${tracksByOther[j][1]}, Album Name: ${tracksByOther[j][2]}, Track Length: ${tracksByOther[j][3]}, Track ID:  ${tracksByOther[j][4]}`));
         item.appendChild(button);
         l.appendChild(item);
     }
 }
 
-
-let artistsRelevance = [];
+let artistsByRelevance = [];
+let artistsByOther = [];
 
 function artistSearch() {
-    artistsRelevance.length = 0;
-    counter = 0;
-    let searchInput = document.getElementById("artistSearch").value;
+
+    let searchInput = document.getElementById("userSearch").value;
+
+    artistsByRelevance.length = 0;
+
     fetch('/artists/search/' + searchInput)
     .then(res => res.json()
     .then(artistIDs => {
-        const l = document.getElementById('searchResults');
-        removeAllChildNodes(l)
+       
+
         for(let i = 0; i < artistIDs.length; i ++){
-            
             fetch('/artists/' + artistIDs[i])
             .then(res => res.json()
             .then(data => {
-                console.log(data);
-                artistsRelevance.push(data.artist_name)
+                console.log(i+": "+data);
+
+                artistsByRelevance[i] = data.artist_name;
                 
 
                 if(i == artistIDs.length-1){
-                    artistsRelevance.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
-                    for(let j = 0; j < artistIDs.length; j++){
-                        const item = document.createElement('li');
-                        console.log(artistsRelevance[j])
-                        item.appendChild(document.createTextNode(`Artist Name: ${artistsRelevance[j]}`));
-                        l.appendChild(item);
-                    }
+                    searchBy();
                 } 
 
             }))
@@ -123,71 +134,95 @@ function artistSearch() {
     }))
 }
 
-document.getElementById("searchList").addEventListener('click', playlistSearch);
-var playlistInput = document.getElementById("playlistName");
+function showArtists (){
+    artistsByOther.length = 0;
 
-playlistInput.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("searchList").click();
-  }
-});
+    const l = document.getElementById('searchResults');
+    removeAllChildNodes(l)
+    artistsByRelevance.forEach(cloneArray);
+    function cloneArray(value) {
+        artistsByOther.push(value); 
+    }
+    if(document.getElementById("sortResults").value == 1){
+        artistsByOther.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+    }
+    for(let j = 0; j < artistsByRelevance.length; j++){
+        const item = document.createElement('li');
+        console.log(artistsByOther[j])
+        item.appendChild(document.createTextNode(`Artist Name: ${artistsByOther[j]}`));
+        l.appendChild(item);
+    }
+}
 
+let playlistsByRelevance = [];
+let playlistsByOther = [];
 
 function playlistSearch() {
-    tracksByRelevance.length = 0;
+    playlistsByRelevance.length = 0;
 
-    let searchInput = document.getElementById("playlistName").value;
+    let searchInput = document.getElementById("userSearch").value;
+
     fetch('/playlists/search/' + searchInput) //Returns array of playlist names
     .then(res => res.json()
     .then(playlistNames => {
-        const l = document.getElementById('searchResults');
-        removeAllChildNodes(l)
+        
 
         for(let i = 0; i < playlistNames.length; i ++){
             fetch('/playlists/' + playlistNames[i]) //Returns a playlist object
             .then(res => res.json()
             .then(data => {
-                console.log(data);
-                
-                const item = document.createElement('div');
-                item.className = "playlist-result";
-                const header = document.createElement('h1')
-                header.className = "playlist-name";
-                
-                header.appendChild(document.createTextNode(`${data.playlist_name}`))
-                item.appendChild(header);
+                console.log(i+": "+data);
 
-                const playlistAbout = document.createElement('p');
-                playlistAbout.className = "playlist-about";
-                item.appendChild(playlistAbout)
-                playlistAbout.appendChild(document.createTextNode(`${data.tracks_amount} tracks    |    Playlist duration: ${data.playtime}`));
-                
-                const listTracks = document.createElement('ul')
+                playlistsByRelevance[i] = [data.playlist_name, data.tracks_amount, data.playtime, data.track_list, data.last_edit, data.description];
 
-                for(let j = 0; j < data.track_list.length; j++){
-                    console.log(data.track_list[j])
-                    fetch('/tracks/' + data.track_list[j]) //Returns a Track object
-                    .then(res => res.json()
-                    .then(tracks => {
-                        
-                        const listTracksItem = document.createElement('li');
-                        listTracksItem.appendChild(document.createTextNode(`Track Title: ${tracks.track_title}, Artist Name: ${tracks.artist_name}, Album Name: ${tracks.artist_name}, Duration: ${tracks.track_duration}`));
-                        var button = document.createElement("button");
-                        button.innerHTML = "▶";
-                        listTracks.appendChild(listTracksItem)
-                        .appendChild(button);
-                    }))
-                }
-
-                item.appendChild(listTracks);
-                l.appendChild(item);
-
+                if(i == playlistNames.length-1){
+                    searchBy();
+                } 
             }))
         }
 
     }))
 }
+
+function showPlaylists() {
+    playlistsByOther.length = 0;
+
+    const l = document.getElementById('searchResults');
+    removeAllChildNodes(l)
+    playlistsByRelevance.forEach(cloneArray);
+    function cloneArray(value) {
+        playlistsByOther.push(value); 
+    }
+    playlistsByOther.sort((a, b) => {
+        if(a[4] === b[4]){
+            return 0;
+        } else {
+            return (a[4] < b[4]) ? -1 : 1;
+        }
+    });
+    for(let j = 0; j < playlistsByRelevance.length; j++){
+        const item = document.createElement('li');
+        const listTracks = document.createElement('ul');
+        console.log(playlistsByOther[j])
+        item.appendChild(document.createTextNode(`Playlist Name: ${playlistsByOther[j][0]}, Number of Tracks: ${playlistsByOther[j][1]}, Playlist duration: ${playlistsByOther[j][2]}, Description: ${playlistsByOther[j][5]}, Last Edited: ${playlistsByOther[j][4]}`));
+        for(let i = 0; i < playlistsByOther[j][3].length; i ++){
+            console.log(playlistsByOther[j][3])
+            fetch('/tracks/' + playlistsByOther[j][3][i]) //Returns a Track object
+            .then(res => res.json()
+            .then(tracks => {
+                const listTracksItem = document.createElement('li');
+                listTracksItem.appendChild(document.createTextNode(`Track Title: ${tracks.track_title}, Artist Name: ${tracks.artist_name}, Album Name: ${tracks.artist_name}, Duration: ${tracks.track_duration}`));
+                listTracks.appendChild(listTracksItem);
+            }))
+        }
+        item.appendChild(listTracks);
+        l.appendChild(item);
+        
+    }
+
+}
+
+
 
 document.getElementById("createList").addEventListener('click', playlistCreate);
 

@@ -18,44 +18,52 @@
     <div class="search-container">
         <form>
             <div class = "track-search"> 
-                <input type="text" placeholder="Search Tracks" id="trackSearch">
-                <button type="button" id=trackButton>Search</button>
+                <input type="text" placeholder="Search Tracks" id="userSearch">
+                <button type="button" id=searchButton>Search</button>
     
-                <input type="text" placeholder="Search Artists" id="artistSearch">
-                <button type="button" id=artistButton>Search</button>
             </div>
-    </div>     
 
-    <div class="playlist-tab">
-        <div class="create-playlist">
-            <input type="text" placeholder="Playlist Name" id="playlistName">
-            <button type="button" id=createList>Create</button>
-            <button type="button" id=searchList>Search</button>
-        </div>
+            <div class="playlist-tab">
+                <div class="create-playlist">
+                    <input type="text" placeholder="Playlist Name" id="playlistName">
+                    <button type="button" id=createList>Create</button>
+                </div>
 
-        <div class="sort-by">
-            Select Playlist
-            <select name="playlist" id="playlist">
-            </select>
+                <div class="sort-by">
+                    Select Playlist
+                    <select name="playlist" id="playlist">
+                    </select>
 
-                
-            Sort by: 
-            <select name="sortResults" id="sortResults">
-                <option value="0" selected="selected">Track</option>
-                <option value="1">Artist</option>
-                <option value="2">Album</option>
-                <option value="3">Length</option>
-            </select>
-        </div>
+                            
+                    Sort by: 
+
+                    <select name="sortResults" id="sortResults">
+                        <option value="0">Track</option>
+                        <option value="1">Artist</option>
+                        <option value="2">Album</option>
+                        <option value="3">Length</option>
+                        <option value="4" selected="selected">Relevance</option>
+                    </select>
+                    Search by:
+                     
+                    <select name="searchBy" id="searchBy">
+                        <option value="0" selected="selected">Track</option>
+                        <option value="1">Artist</option>
+                        <option value="2">Playlist</option>
+
+                    </select>
+                </div>
+            
+
+                <!--Select track IDs-->
+                <!--<select name="tracks" id="tracks" multiple></select>-->
+                <button type="button" id=updateList>Update</button>
+            </div>
+        </form>
     </div>
-
-    <!--Select track IDs-->
-    <!--<select name="tracks" id="tracks" multiple></select>-->
-    <button type="button" id=updateList>Update</button>
-
-    </form>
     <div class="results-list">
         <ol id="searchResults"></ol>
+
     </div>
     
 
