@@ -1,13 +1,21 @@
-const express = require('express')
-const router = express.Router()
-const Album = require('../models/album')
-const app = express();
-const { check, validationResult } = require('express-validator');
+import express from 'express';
+import Album from '../models/album.js';
 
-const cors = require('cors');
-let bodyParser = require('body-parser');
-let multer = require('multer');
-let csv = require('csvtojson');
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import csv from 'csvtojson';
+
+
+//const express = require('express')
+const router = express.Router()
+//const Album = require('../models/album')
+const app = express();
+
+// const cors = require('cors');
+// let bodyParser = require('body-parser');
+// let multer = require('multer');
+// let csv = require('csvtojson');
 
 let upload =  multer({dest: 'data/'})
 
@@ -106,4 +114,4 @@ async function getAlbum(req, res, next) {
     next()
 }
 
-module.exports = router
+export default router;

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
+//const mongoose = require('mongoose')
 
 const trackSchema = new mongoose.Schema({
     track_id: {
@@ -123,4 +124,4 @@ const trackSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('track', trackSchema)
+export default mongoose.model('track', trackSchema)

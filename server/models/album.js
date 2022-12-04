@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
+//const mongoose = require('mongoose')
 
 const albumSchema = new mongoose.Schema({
     
@@ -63,4 +64,4 @@ const albumSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Album', albumSchema)
+export default mongoose.model('Album', albumSchema)

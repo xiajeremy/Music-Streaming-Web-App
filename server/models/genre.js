@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
+//const mongoose = require('mongoose')
 
 const genreSchema = new mongoose.Schema({
     genre_id: {
@@ -23,4 +24,4 @@ const genreSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Genre', genreSchema)
+export default mongoose.model('Genre', genreSchema)

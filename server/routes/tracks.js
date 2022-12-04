@@ -1,13 +1,23 @@
-const express = require('express')
-const router = express.Router()
-const Track = require('../models/track')
-const app = express();
-const { check, validationResult } = require('express-validator');
+import express from 'express';
+import Track from '../models/track.js';
 
-const cors = require('cors');
-let bodyParser = require('body-parser');
-let multer = require('multer');
-let csv = require('csvtojson');
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import csv from 'csvtojson';
+
+import stringSimilarity from 'string-similarity';
+
+// const express = require('express')
+const router = express.Router()
+// const Track = require('../models/track')
+const app = express();
+
+// const cors = require('cors');
+// let bodyParser = require('body-parser');
+// let multer = require('multer');
+// let csv = require('csvtojson');
+//var stringSimilarity = require("string-similarity");
 
 let upload =  multer({dest: 'data/'})
 
@@ -15,7 +25,6 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-var stringSimilarity = require("string-similarity");
 
 
 //Getting all
@@ -153,4 +162,4 @@ async function getTrack(req, res, next) {
     next()
 }
 
-module.exports = router
+export default router;

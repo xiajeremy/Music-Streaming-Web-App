@@ -1,14 +1,24 @@
-const express = require('express')
+import express from 'express';
+import Artist from '../models/artist.js';
+
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+import csv from 'csvtojson';
+
+import stringSimilarity from 'string-similarity';
+
+//const express = require('express')
 const router = express.Router()
-const Artist = require('../models/artist')
+//const Artist = require('../models/artist')
 const app = express();
-const { check, validationResult } = require('express-validator');
 
 
-const cors = require('cors');
-let bodyParser = require('body-parser');
-let multer = require('multer');
-let csv = require('csvtojson');
+// const cors = require('cors');
+// let bodyParser = require('body-parser');
+// let multer = require('multer');
+// let csv = require('csvtojson');
+// var stringSimilarity = require("string-similarity");
 
 let upload =  multer({dest: 'data/'})
 
@@ -16,7 +26,7 @@ app.use(cors())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-var stringSimilarity = require("string-similarity");
+
 
 
 //Getting all
@@ -148,5 +158,4 @@ async function getArtist(req, res, next) {
     res.artist = artist
     next()
 }
-
-module.exports = router
+export default router;

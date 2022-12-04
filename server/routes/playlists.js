@@ -1,9 +1,26 @@
-const express = require('express')
+import express from 'express';
+import Playlist from '../models/playlist.js';
+import Track from '../models/track.js';
+
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+
+import stringSimilarity from 'string-similarity';
+
+
+//const express = require('express')
+const app = express();
 const router = express.Router()
-const Playlist = require('../models/playlist')
-const Track = require('../models/track')
-const { param, validationResult } = require('express-validator');
-var stringSimilarity = require("string-similarity");
+// const Playlist = require('../models/playlist')
+// const Track = require('../models/track')
+//var stringSimilarity = require("string-similarity");
+
+let upload =  multer({dest: 'data/'})
+
+app.use(cors())
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 
 
 //Getting all
@@ -53,11 +70,7 @@ router.get('/search/:playlistSearch', async (req, res) => {
 
 
 //Creating one
-router.post('/:playlist_name', param('playlist_name').isLength({ max: 20 }).escape(), async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+router.post('/:playlist_name', async (req, res) => {
 
     let checkList;
     
@@ -170,4 +183,4 @@ async function getPlaylist(req, res, next) {
 }
 
 
-module.exports = router
+export default router;

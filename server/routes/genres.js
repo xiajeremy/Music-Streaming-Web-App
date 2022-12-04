@@ -1,11 +1,20 @@
-const express = require('express')
+import express from 'express';
+import Genre from '../models/genre.js';
+import csv from 'csvtojson';
+
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import multer from 'multer';
+
+
+//const express = require('express')
 const app = express();
 const router = express.Router()
-const Genre = require('../models/genre')
-const cors = require('cors');
-let bodyParser = require('body-parser');
-let multer = require('multer');
-let csv = require('csvtojson');
+// const Genre = require('../models/genre')
+// const cors = require('cors');
+// let bodyParser = require('body-parser');
+// let multer = require('multer');
+// let csv = require('csvtojson');
 
 let upload =  multer({dest: 'data/'})
 
@@ -111,4 +120,4 @@ async function getGenre(req, res, next) {
     next()
 }
 
-module.exports = router
+export default router;
