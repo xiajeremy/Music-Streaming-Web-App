@@ -4,21 +4,26 @@ document.addEventListener("DOMContentLoaded", function() {
     console.log("DOM loaded");
 });
 
-document.getElementById("trackButton").addEventListener('click', trackSearch);
-var trackInput = document.getElementById("trackSearch");
+document.getElementById("searchButton").addEventListener('click', trackSearch);
+document.getElementById("searchButton").addEventListener('click', artistSearch);
+document.getElementById("searchButton").addEventListener('click', playlistSearch);
 
-trackInput.addEventListener("keypress", function(event) {
+var userInput = document.getElementById("userSearch");
+
+userInput.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
     event.preventDefault();
-    document.getElementById("trackButton").click();
+    document.getElementById("searchButton").click();
   }
 });
 
 
-let resultsData = [];
 
 function sortFunction(a, b) {
     let sortBy = document.getElementById("sortResults").value;    
+    if(sortBy == 4){
+        return 0;
+    }
     if (a[sortBy] === b[sortBy]) {
         return 0;
     }
@@ -27,15 +32,20 @@ function sortFunction(a, b) {
     }
 }
 
+let tracksByRelevance = [];
+let tracksByOther = [];
+
 function trackSearch() {
     
-    let searchInput = document.getElementById("trackSearch").value;
-    resultsData.length = 0;
+    let searchInput = document.getElementById("userSearch").value;
+    tracksByRelevance.length = 0;
+    tracksByOther.length = 0;
+
+
     fetch('/tracks/search/' + searchInput)
     .then(res => res.json()
     .then(trackIDs => {
-        const l = document.getElementById('searchResults');
-        removeAllChildNodes(l)
+        
 
         for(let i = 0; i < trackIDs.length; i++){
             fetch('/tracks/' + trackIDs[i])
@@ -43,43 +53,44 @@ function trackSearch() {
             .then(data => {
                 console.log(data);
                 
-                resultsData.push([data.track_title, data.artist_name, data.album_title, data.track_duration, data.track_id])
+                tracksByRelevance.push([data.track_title, data.artist_name, data.album_title, data.track_duration, data.track_id])
                 
                 if(i == trackIDs.length - 1){
-                    resultsData.sort(sortFunction);
-                    for(let j = 0; j < trackIDs.length; j++){
-                        const item = document.createElement('li');
-                        console.log(resultsData[j])
-                        var button = document.createElement("button");
-                        button.innerHTML = "▶";
-                        button.setAttribute('onclick',`window.open("https://www.youtube.com/results?search_query=${resultsData[j][0]}", "_blank")`);
-
-                        item.appendChild(document.createTextNode(`Track Name: ${resultsData[j][0]}, Artist Name: ${resultsData[j][1]}, Album Name: ${resultsData[j][2]}, Track Length: ${resultsData[j][3]}, Track ID:  ${resultsData[j][4]}`));
-                        item.appendChild(button);
-                        l.appendChild(item);
-                    }
+                    showTracks();
                 }
     
             }))
-        }
-        
+        }    
         console.log("done")
     }))
 }
 
+function showTracks(){
+    const l = document.getElementById('trackResults');
+    removeAllChildNodes(l)
+    tracksByRelevance.forEach(cloneArray);
+    function cloneArray(value) {
+        tracksByOther.push(value); 
+    }
+    tracksByOther.sort(sortFunction);
+    for(let j = 0; j < trackIDs.length; j++){
+        const item = document.createElement('li');
+        console.log(tracksByRelevance[j])
+        var button = document.createElement("button");
+        button.innerHTML = "▶";
+        button.setAttribute('onclick',`window.open("https://www.youtube.com/results?search_query=${tracksByRelevance[j][0]}", "_blank")`);
 
-document.getElementById("artistButton").addEventListener('click', artistSearch);
-var artistInput = document.getElementById("artistSearch");
+        item.appendChild(document.createTextNode(`Track Name: ${tracksByRelevance[j][0]}, Artist Name: ${tracksByRelevance[j][1]}, Album Name: ${tracksByRelevance[j][2]}, Track Length: ${tracksByRelevance[j][3]}, Track ID:  ${tracksByRelevance[j][4]}`));
+        item.appendChild(button);
+        l.appendChild(item);
+    }
+}
 
-artistInput.addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("artistButton").click();
-  }
-});
+
+let artistsRelevance = [];
 
 function artistSearch() {
-    resultsData.length = 0;
+    artistsRelevance.length = 0;
     counter = 0;
     let searchInput = document.getElementById("artistSearch").value;
     fetch('/artists/search/' + searchInput)
@@ -93,15 +104,15 @@ function artistSearch() {
             .then(res => res.json()
             .then(data => {
                 console.log(data);
-                resultsData.push(data.artist_name)
+                artistsRelevance.push(data.artist_name)
                 
 
                 if(i == artistIDs.length-1){
-                    resultsData.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
+                    artistsRelevance.sort((a, b) => a.localeCompare(b, undefined, {sensitivity: 'base'}));
                     for(let j = 0; j < artistIDs.length; j++){
                         const item = document.createElement('li');
-                        console.log(resultsData[j])
-                        item.appendChild(document.createTextNode(`Artist Name: ${resultsData[j]}`));
+                        console.log(artistsRelevance[j])
+                        item.appendChild(document.createTextNode(`Artist Name: ${artistsRelevance[j]}`));
                         l.appendChild(item);
                     }
                 } 
@@ -124,7 +135,7 @@ playlistInput.addEventListener("keypress", function(event) {
 
 
 function playlistSearch() {
-    resultsData.length = 0;
+    tracksByRelevance.length = 0;
 
     let searchInput = document.getElementById("playlistName").value;
     fetch('/playlists/search/' + searchInput) //Returns array of playlist names
