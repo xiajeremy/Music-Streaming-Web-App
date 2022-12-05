@@ -1,95 +1,24 @@
 import express from 'express';
-import Track from '../models/track.js';
-
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import multer from 'multer';
+import { getTracks, getTrack, searchTracks, updateTrack, deleteTrack } from '../controllers/tracks.js';
 import csv from 'csvtojson';
-
-import stringSimilarity from 'string-similarity';
-
-// const express = require('express')
-const router = express.Router()
-// const Track = require('../models/track')
-const app = express();
-
-// const cors = require('cors');
-// let bodyParser = require('body-parser');
-// let multer = require('multer');
-// let csv = require('csvtojson');
-//var stringSimilarity = require("string-similarity");
+import multer from 'multer';
 
 let upload =  multer({dest: 'data/'})
 
-app.use(cors())
-app.use(bodyParser.urlencoded({extended: false}))
-app.use(bodyParser.json())
-
+const router = express.Router()
 
 
 //Getting all
-router.get('/', async (req, res) => {
-    try {
-        const tracks = await Track.find()
-        res.json(tracks)
-    }catch (err) {
-        res.status(500).json({message: err.message})
-    }
-})
+router.get('/', getTracks);
 //Getting one
-router.get('/:track_id', getTrack, (req, res) => {
-    res.send(res.track)
-})
-
-//QUESTION 4
-router.get('/search/:trackSearch', async (req, res) => {
-
-    var allResults = await Track.find({}, {track_id: 1, track_title: 1, album_title: 1 })
-
-    allResultsStr = JSON.stringify(allResults);
-    allResultsArr = allResultsStr.split('},{');
-
-    softSearch = stringSimilarity.findBestMatch(req.params.trackSearch, allResultsArr);
-
-    let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
-    
-    console.log(sortedSearch)
-
-    
-    var finalResults = [];
-    let counter = 0;
-    for(let i = 0; i < sortedSearch.length; i++){
-        if(counter < 20){
-            let searchIndex = allResultsArr.indexOf(sortedSearch[i].target)
-            console.log(sortedSearch[i].target)
-            console.log(searchIndex)
-            console.log(allResultsArr[searchIndex])
-            finalResults.push(allResults[searchIndex].track_id);
-            counter ++;
-        } else {
-            break;
-        }
-    }
-    console.log(finalResults)
-
-    res.send(finalResults)
-})
-
-
-//Creating one
-/*router.post('/', async (req, res) => {
-    const track = new Track ({
-        track_id: req.body.track_id,
-        track_title: req.body.track_title
-    })
-    try {
-        const newTrack = await track.save()
-        res.status(201).json(newTrack)tracks
-    } catch (err){
-        res.status(400).json({ message: err.message })
-    }
-})*/
-
+router.get('/:track_id', getTrack);
+//Getting Search
+router.get('/search/:trackSearch', searchTracks);
+//Updating one (use patch to update certain parts instead of replacing entire resource)
+router.patch('/:track_id', updateTrack);
+//Deleting one
+router.delete('/:track_id', deleteTrack);
+//Populate database
 router.post('/', upload.single('file'),async (req, res)=>{
     csv()
     .fromFile('data/raw_tracks.csv')
@@ -120,46 +49,5 @@ router.post('/', upload.single('file'),async (req, res)=>{
         }
     })
 })
-
-
-
-
-//Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:tracks_id', getTrack, async (req, res) => {
-    if (req.body.track_title != null) {
-        res.track.track_title = req.body.track_title
-    }
-    try {
-        const updatedTrack = await res.track.save()
-        res.json(updatedTrack)
-    } catch (err) {
-        res.status(400).json({ message: err.message})
-    }
-})
-//Deleting one
-router.delete('/:tracks_id', getTrack, async (req, res) => {
-    try {
-        await res.track.remove()
-        res.json({ message: "Deleted track"})
-    } catch (err) {
-        res.status(500).jason({ message: err.message})
-    }
-})
-
-//middleware
-async function getTrack(req, res, next) {
-    let track
-    try { 
-        track = await Track.findOne({track_id: req.params.track_id})
-        if (track == null) {
-            return res.status(404).json({ message: 'Cannot find track' })
-        }
-    } catch (err) {
-        return res.status(500).json({ message: err.message })
-    }
-
-    res.track = track
-    next()
-}
 
 export default router;
