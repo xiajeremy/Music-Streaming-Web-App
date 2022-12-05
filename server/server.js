@@ -28,7 +28,7 @@ app.use('/playlists', playlistRouter)
 
 const CONNECTION_URL = "mongodb+srv://ec2-user:Welcome2JX@cluster0.7h7yqij.mongodb.net/lab3";
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(3000, () => console.log('Server Started')))
+    .then(() => app.listen(5000, () => console.log('Server Started')))
     .catch((error) => console.log(error.message));
 
 

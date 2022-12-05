@@ -1,62 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Container, AppBar, Typography, Grow, Grid } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
+
+import Playlists from './components/Playlists/Playlists';
+import Form from './components/Form/Form';
+import { getPlaylists } from './actions/playlists';
+import useStyles from './styles';
+import memories from './images/memories.png';
 
 const App = () => {
-    return (
-        <div>
-            <h1>SE 3316 Lab 4</h1>
-            <h2>By Jeremy Xia, Malay Patel and Derin Yilmaz</h2>
-            <p id="status"> </p>
-        
-        
-                <div className ="search-container">
-                    <form>
-                        <div className  = "track-search"> 
-                            <input type="text" placeholder="Search Tracks" id="userSearch" />
-                            <button type="button" id="searchButton">Search</button>
-                
-                        </div>
-        
-                        <div className ="playlist-tab">
-                            <div className ="create-playlist">
-                                <input type="text" placeholder="Playlist Name" id="playlistName" />
-                                <button type="button" id="createList">Create</button>
-                            </div>
-        
-                            <div className ="sort-by">
-                                Select Playlist
-                                <select name="playlist" id="playlist">
-                                </select>
-        
-                                        
-                                Sort by: 
-        
-                                <select name="sortResults" id="sortResults">
-                                    <option value="0">Track</option>
-                                    <option value="1">Artist</option>
-                                    <option value="2">Album</option>
-                                    <option value="3">Length</option>
-                                    <option value="4" selected="selected">Relevance</option>
-                                </select>
-                                Search by:
-                                
-                                <select name="searchBy" id="searchBy">
-                                    <option value="0" selected="selected">Track</option>
-                                    <option value="1">Artist</option>
-                                    <option value="2">Playlist</option>
-        
-                                </select>
-                            </div>
-                        
-                            <button type="button" id="updateList">Update</button>
-                        </div>
-                    </form>
-                </div>
-                <div className ="results-list">
-                    <ol id="searchResults"></ol>
-        
-                </div>
-        </div>
-    )
-}
+  const [currentId, setCurrentId] = useState(0);
+  const dispatch = useDispatch();
+  const classes = useStyles();
+
+  useEffect(() => {
+    dispatch(getPlaylists());
+  }, [currentId, dispatch]);
+
+  return (
+    <Container maxWidth="lg">
+      <AppBar className={classes.appBar} position="static" color="inherit">
+        <Typography className={classes.heading} variant="h2" align="center">Lab 4</Typography>
+        <img className={classes.image} src={memories} alt="icon" height="60" />
+      </AppBar>
+      <Grow in>
+        <Container>
+          <Grid container justifyContent="space-between" alignItems="stretch" spacing={3}>
+            <Grid item xs={12} sm={7}>
+              <Playlists setCurrentId={setCurrentId} />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
+            </Grid>
+          </Grid>
+        </Container>
+      </Grow>
+    </Container>
+  );
+};
 
 export default App;
