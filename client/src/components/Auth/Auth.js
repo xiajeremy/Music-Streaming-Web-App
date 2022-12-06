@@ -20,7 +20,6 @@ const Auth = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const dispatch = useDispatch;
-    const [user, setUser] = useState({});
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
     const handleSubmit = () => {
@@ -43,15 +42,15 @@ const Auth = () => {
         
         console.log(token)
         console.log(result)
+        localStorage.setItem('profile', JSON.stringify({result}))
 
-        // const result = res?.profileObj;
-        // const token = res?.tokenId;
+        dispatch({type: 'AUTH', data: {result}})
 
-        try {
-            dispatch({type: 'AUTH', data: {result}})
-        } catch (error) {
-            console.log(error)
-        }
+        // try {
+        //     
+        // } catch (error) {
+        //     console.log(error)
+        // }
     };
     const googleFailure = (error) => {
         console.log(error)
