@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import FileBase from 'react-file-base64';
 
 import useStyles from './styles';
 import { createPlaylist, updatePlaylist } from '../../actions/playlists';
 
 const Form = ({ currentId, setCurrentId }) => {
-  const [playlistData, setPlaylistData] = useState({ creator: ' ', playlist_name: '', description: ''});
+  const [playlistData, setPlaylistData] = useState({ creator: '', playlist_name: '', description: ''});
   const playlist = useSelector((state) => (currentId ? state.playlists.find((message) => message.playlist_name === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
