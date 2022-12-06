@@ -17,8 +17,8 @@ const Playlist = ({ playlist, setCurrentId }) => {
     <Card className={classes.card}>
       <CardMedia className={classes.media} title = {playlist.playlist_name} />
       <div className={classes.overlay}>
-        <Typography variant="h6">{playlist.playlist_name}</Typography>
-        <Typography variant="body2">{moment(playlist.createdAt).fromNow()}</Typography>
+        <Typography variant="h6">{playlist.creator}</Typography>
+        <Typography variant="body2">{playlist.last_edit}</Typography>
       </div>
       <div className={classes.overlay2}>
         <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(playlist.playlist_name)}>

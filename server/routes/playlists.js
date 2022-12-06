@@ -11,7 +11,7 @@ router.get('/:playlist_name', getPlaylist);
 //Getting Search
 router.get('/search/:playlistSearch', searchPlaylists);
 //Populate database
-router.post('/:playlist_name', createPlaylist);
+router.post('/', createPlaylist);
 //Updating one (use patch to update certain parts instead of replacing entire resource)
 router.patch('/:playlist_name', updatePlaylist);
 //Deleting one

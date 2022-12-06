@@ -73,7 +73,7 @@ export const createPlaylist = async (req, res) => {
     let checkList;
     
     try {
-        checkList = await Playlist.findOne({playlist_name: req.params.playlist_name})
+        checkList = await Playlist.findOne({playlist_name: req.body.playlist_name})
         if (checkList !== null) {
             return res.status(400).json({ message: 'Playlist already exists' })
         }    
@@ -84,7 +84,7 @@ export const createPlaylist = async (req, res) => {
 
 
     const playlist = new Playlist ({
-        playlist_name: req.params.playlist_name,
+        playlist_name: req.body.playlist_name,
         description: req.body.description,
         creator: req.body.creator,
         last_edit: new Date().toLocaleString()
