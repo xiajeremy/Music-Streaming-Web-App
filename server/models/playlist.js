@@ -8,11 +8,12 @@ const playlistSchema = new mongoose.Schema({
         
     },
     tracks_amount: {
-        type: Number
-        
+        type: Number,
+        "default": 0
     },
     playtime: {
         type: String,
+        "default": "0"
     },
     track_list: {
         type: Array, 
@@ -22,7 +23,11 @@ const playlistSchema = new mongoose.Schema({
         type: String
     },
     description: {
-        type: String
+        type: String, 
+        "default": " "
+    },
+    creator: {
+        type: String,
     }
 })
 

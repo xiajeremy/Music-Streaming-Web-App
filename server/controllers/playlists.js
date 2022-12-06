@@ -21,8 +21,9 @@ export const getPlaylists = async (req, res) => {
 
 //Getting one
 export const getPlaylist = async (req, res) => {
+    let playlist
     try { 
-        const playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
+        playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
         if (playlist == null) {
             return res.status(404).json({ message: 'Cannot find playlist' })
         }
@@ -81,8 +82,12 @@ export const createPlaylist = async (req, res) => {
     }
 
 
+
     const playlist = new Playlist ({
-        playlist_name: req.params.playlist_name
+        playlist_name: req.params.playlist_name,
+        description: req.body.description,
+        creator: req.body.creator,
+        last_edit: new Date().toLocaleString()
     })
     
     try {
@@ -107,45 +112,49 @@ export const updatePlaylist = async (req, res) => {
     } catch (err){
         res.status(400).json({ message: err.message })
     }
+    res.playlist = playlist;
     
-    
-
-    const newName = req.body.playlist_name;
-    const trackList = req.body.track_list;
-
-    let totalDuration = 0;
-    
-    for(let i = 0; i < trackList.length; i++){
-        let currentTrack
-        try { 
-            currentTrack = await Track.findOne({track_id: trackList[i]})
+    if (req.body.creator != null){
+        res.playlist.creator = req.body.creator;
+    }
+    if (req.body.playlist_name != null){
+        res.playlist.playlist_name = req.body.playlist_name;
+    }
+    if (req.body.description != null){
+        res.playlist.description = req.body.description;
+    } 
+    if (req.body.add_track != null){
+        let track
+        try {
+            track = Track.findOne({track_id: req.body.add_track})
             if (currentTrack == null) {
                 return res.status(404).json({ message: 'Cannot find track' })
             }
         } catch (err) {
             return res.status(500).json({ message: err.message })
         }
-        console.log(currentTrack);
-
-        let tempDuration = currentTrack.track_duration.split(':');
+        res.playlist.trackList.push(track)
+        
+        
+        
+        let tempDuration = track.track_duration.split(':');
         let mins = parseInt(tempDuration[0])*60;
         let duration = mins + parseInt(tempDuration[1])
-        totalDuration += duration; 
 
+        let totalDuration = 0;
+        tempDuration = res.playlist.playtime.split(':');
+        mins = parseInt(tempDuration[0])*60;
+        totalDuration = duration + mins + parseInt(tempDuration[1]); 
+        
+        let playtime = Math.floor(totalDuration / 60) + ":" + totalDuration % 60
+
+        res.playlist.playtime = playtime;
     }
 
-
-    let playtime = Math.floor(totalDuration / 60) + ":" + totalDuration % 60
-
-    
-    playlist.playlist_name = newName;
-    playlist.tracks_amount = trackList.length;
-    playlist.playtime = playtime;
-    playlist.track_list = trackList;
-    playlist.last_edit = new Date().toLocaleString();
+    res.playlist.last_edit = new Date().toLocaleString();
 
     try {
-        const updatedPlaylist = await playlist.save()
+        const updatedPlaylist = await res.playlist.save()
         res.status(201).json(updatedPlaylist)
     } catch (err) {
         res.status(400).json({ message: err.message})
@@ -156,8 +165,9 @@ export const updatePlaylist = async (req, res) => {
 
 //Deleting one
 export const deletePlaylist = async (req, res) => {
+    let playlist
     try { 
-        const playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
+        playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
         if (playlist == null) {
             return res.status(404).json({ message: 'Cannot find playlist' })
         }
