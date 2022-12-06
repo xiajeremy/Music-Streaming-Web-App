@@ -3,16 +3,24 @@ import {Avatar, Button, Paper, Grid, Typography, Container} from "@material-ui/c
 import {GoogleLogin} from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {useDispatch} from 'react-redux'
+import jwt_decode from 'jwt-decode';
 
 import Icon from "./icon"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from "./styles"
 import Input from "./Input"
+
+require('react-dom');
+window.React2 = require('react');
+console.log(window.React1 === window.React2);
+
+
 const Auth = () => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
     const dispatch = useDispatch;
+    const [user, setUser] = useState({});
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
     const handleSubmit = () => {
@@ -27,12 +35,20 @@ const Auth = () => {
         setShowPassword(false);
     };
 
+
     const googleSuccess = async (res) => {
-        const result = res?.profileObj;
-        const token = res?.tokenId;
+        console.log(res);
+        const token = res?.credential;
+        const result = jwt_decode(token);
+        
+        console.log(token)
+        console.log(result)
+
+        // const result = res?.profileObj;
+        // const token = res?.tokenId;
 
         try {
-            dispatch({type: 'AUTH', data: {result, token}})
+            dispatch({type: 'AUTH', data: {result}})
         } catch (error) {
             console.log(error)
         }
