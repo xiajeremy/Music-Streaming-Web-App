@@ -4,6 +4,7 @@ import {GoogleLogin} from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import {useDispatch} from 'react-redux'
 import jwt_decode from 'jwt-decode';
+import { useHistory } from 'react-router-dom';
 
 import Icon from "./icon"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -19,7 +20,7 @@ const Auth = () => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
-    const dispatch = useDispatch;
+    const history = useHistory();
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
     const handleSubmit = () => {
@@ -42,10 +43,9 @@ const Auth = () => {
         
         console.log(token)
         console.log(result)
-        localStorage.setItem('profile', JSON.stringify({result}))
+        localStorage.setItem('profile', JSON.stringify({result, token}))
 
-        dispatch({type: 'AUTH', data: {result}})
-
+        history.push('/')
         // try {
         //     
         // } catch (error) {
