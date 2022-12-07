@@ -20,3 +20,6 @@ export const fetchPlaylistsBySearch = (searchQuery) => API.get(`playlists/search
 
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
+
+export const fetchTracks = () => API.get(`/tracks`);
+export const fetchTrack = (id) => API.get(`/tracks/${id}`);
