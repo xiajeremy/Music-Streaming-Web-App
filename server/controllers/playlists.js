@@ -70,6 +70,7 @@ export const searchPlaylists = async (req, res) => {
 //Creating one
 export const createPlaylist = async (req, res) => {
 
+    if(!req.userId) return res.json({message: "Unauthenticated"})
     let checkList;
     
     try {

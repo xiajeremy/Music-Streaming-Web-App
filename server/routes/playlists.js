@@ -1,6 +1,9 @@
 import express from 'express';
 import { getPlaylists, getPlaylist, createPlaylist, searchPlaylists, updatePlaylist, deletePlaylist } from '../controllers/playlists.js';
 
+import auth from '../middleware/auth.js';
+
+
 const router = express.Router()
 
 
@@ -11,10 +14,10 @@ router.get('/:playlist_name', getPlaylist);
 //Getting Search
 router.get('/search/:playlistSearch', searchPlaylists);
 //Populate database
-router.post('/', createPlaylist);
+router.post('/', auth, createPlaylist);
 //Updating one (use patch to update certain parts instead of replacing entire resource)
-router.patch('/:playlist_name', updatePlaylist);
+router.patch('/:playlist_name', auth, updatePlaylist);
 //Deleting one
-router.delete('/:playlist_name', deletePlaylist);
+router.delete('/:playlist_name', auth, deletePlaylist);
 
 export default router;
