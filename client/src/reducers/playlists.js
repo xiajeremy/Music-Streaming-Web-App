@@ -22,7 +22,7 @@ export default (state =  [], action) => {
     case FETCH_PLAYLIST:
       return {
         ... state, 
-        playlists: action.payload
+        playlist: action.payload
       };
     case LIKE:
       return state.map((playlist) => (playlist.playlist_name === action.payload.playlist_name ? action.payload : playlist));

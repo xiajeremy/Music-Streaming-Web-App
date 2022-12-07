@@ -20,7 +20,7 @@ const Playlist = ({ playlist, setCurrentId }) => {
 
   return (
     <Card className={classes.card}>
-      {/* <ButtonBase className={classes.cardAction} onClick={openPlaylist}> */}
+      <ButtonBase className={classes.cardAction} onClick={openPlaylist}>
         <div className={classes.media}>
         </div>
         <div className={classes.overlay}>
@@ -29,7 +29,12 @@ const Playlist = ({ playlist, setCurrentId }) => {
         </div>
         {(user?.result?.sub === playlist?.creator || user?.result?._id === playlist?.creator) && (
         <div className={classes.overlay2}>
-          <Button style={{ color: 'white' }} size="small" onClick={() => setCurrentId(playlist.playlist_name)}>
+          <Button style={{ color: 'white' }} size="small" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentId(playlist.playlist_name);
+            }}
+            >
             <MoreHorizIcon fontSize="medium" />
           </Button>
         </div>
@@ -41,7 +46,7 @@ const Playlist = ({ playlist, setCurrentId }) => {
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">{playlist.description}</Typography>
         </CardContent>
-      {/* </ButtonBase> */}
+      </ButtonBase>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likePlaylist(playlist.playlist_name))}>
           <ThumbUpAltIcon fontSize="small" /> Add Review

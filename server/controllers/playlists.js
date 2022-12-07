@@ -97,6 +97,8 @@ export const createPlaylist = async (req, res) => {
 
     const newPlaylist = new Playlist ({ ... playlist, creator: req.userId, last_edit: new Date()})
     
+    newPlaylist.playlist_name = req.body.playlist_name.trim()
+
     try {
         await newPlaylist.save()
         res.status(201).json(newPlaylist)
