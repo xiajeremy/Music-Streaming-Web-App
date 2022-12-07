@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -7,6 +7,8 @@ export const getPlaylists = () => async (dispatch) => {
     const { data } = await api.fetchPlaylists();
 
     dispatch({ type: FETCH_ALL, payload: data });
+    
+    console.log(data)
   } catch (error) {
     console.log(error.message);
   }
@@ -15,7 +17,11 @@ export const getPlaylists = () => async (dispatch) => {
 export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
   try {
     const {data} = await api.fetchPlaylistsBySearch(searchQuery);
+
+    dispatch({ type: FETCH_BY_SEARCH, payload: data });
+
     console.log(data)
+
   } catch (error) {
     console.log(error)
   }

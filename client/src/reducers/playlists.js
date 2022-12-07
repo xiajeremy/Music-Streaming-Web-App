@@ -1,8 +1,10 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 export default (playlists = [], action) => {
   switch (action.type) {
     case FETCH_ALL:
+      return action.payload;
+    case FETCH_BY_SEARCH:
       return action.payload;
     case LIKE:
       return playlists.map((playlist) => (playlist.playlist_name === action.payload.playlist_name ? action.payload : playlist));

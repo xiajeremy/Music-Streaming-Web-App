@@ -17,6 +17,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component = {() => <Redirect to="/playlists" />} />
           <Route path="/playlists" exact component = {Home} />
+          <Route path="/playlists/search/:searchQuery" exact component = {Home} />
           <Route path="/playlists/search" exact component = {Home} />
           <Route path="/playlists/:id" component = {PlaylistDetails} />
           <Route path="/auth" exact component = {() => (!user? <Auth /> : <Redirect to ='/playlists' /> )} />

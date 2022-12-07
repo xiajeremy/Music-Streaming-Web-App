@@ -22,7 +22,7 @@ const Home = () => {
   const page = query.get('page') || 1;
   const searchQuery = query.get('searchQuery');
   const classes = useStyles();
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(getPlaylists());
@@ -30,14 +30,16 @@ const Home = () => {
 
   const searchPlaylist = () => {
     if (search.trim()) {
-      dispatch(getPlaylistsBySearch({search}))
+      dispatch(getPlaylistsBySearch(search))
+
+      history.push(`/playlists/search/${search || 'none'}`)
     } else {
       history.push('/')
     }
   }
 
   const handleKeyPress = (e) => {
-    if(e.keyCode == 13) {
+    if(e.keyCode === 13) {
       searchPlaylist();
     }
   }
@@ -51,8 +53,8 @@ const Home = () => {
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppBar className={classes.appBarSearch} position='static' color='inherit'>
-              <TextField name='search' variant='outlined' label='Search Memories' fullWidth value={search} onKeyPress={handleKeyPress} onChange={(e) => {setSearch(e.target.value)}}/>
-              <Button onClick={searchPlaylist} className={classes.searchButton} color='primary'>
+              <TextField name='search' variant='outlined' label='Search Playlists' fullWidth value={search} onKeyDown={handleKeyPress} onChange={(e) => {setSearch(e.target.value)}}/>
+              <Button onClick={searchPlaylist} className={classes.searchButton} variant = "contained" color='primary'>
                 Search
               </Button>
             </AppBar>
