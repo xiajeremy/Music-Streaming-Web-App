@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {Avatar, Button, Paper, Grid, Typography, Container} from "@material-ui/core";
 import {GoogleLogin} from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import {useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import jwt_decode from 'jwt-decode';
 import { useHistory } from 'react-router-dom';
 
@@ -10,24 +10,36 @@ import Icon from "./icon"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import useStyles from "./styles"
 import Input from "./Input"
+import { signin, signup } from '../../actions/auth';
 
 require('react-dom');
 window.React2 = require('react');
 console.log(window.React1 === window.React2);
 
+const initialState = { firstName: "", lastName: "", email: "", password: "", confirmPassword: ""}
 
 const Auth = () => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
+    const [formData, setFormData] = useState(initialState);
+    const dispatch = useDispatch();
     const history = useHistory();
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
+        if(isSignup){
+            console.log("authcomponent")
+            dispatch(signup(formData, history))
+        } else {
+            dispatch(signin(formData, history))
+
+        }
     };
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({ ... formData, [e.target.name]: e.target.value })
     };
 
     const switchMode = () => {
@@ -47,7 +59,7 @@ const Auth = () => {
 
         history.push('/')
         // try {
-        //     
+        //     dispatch({type: 'AUTH', data: {result, token}})
         // } catch (error) {
         //     console.log(error)
         // }
