@@ -8,6 +8,7 @@ export const getPlaylist = (id) => async (dispatch) => {
 
     const { data } = await api.fetchPlaylist(id);
 
+
     dispatch({ type: FETCH_PLAYLIST, payload: data });
     dispatch({ type: END_LOADING});
 
@@ -18,14 +19,16 @@ export const getPlaylist = (id) => async (dispatch) => {
 };
 
 
-export const getPlaylists = () => async (dispatch) => {
+export const getPlaylists = (page) => async (dispatch) => {
   try {
     dispatch({ type: START_LOADING});
-    const { data } = await api.fetchPlaylists();
+    const { data } = await api.fetchPlaylists(page);
 
-    dispatch({ type: END_LOADING});
+    console.log(data)
 
     dispatch({ type: FETCH_ALL, payload: data });
+    dispatch({ type: END_LOADING});
+
     
     console.log(data)
   } catch (error) {
@@ -60,14 +63,14 @@ export const createPlaylist = (playlist) => async (dispatch) => {
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
 export const updatePlaylist = (id, playlist) => async (dispatch) => {
   try {
     const { data } = await api.updatePlaylist(id, playlist);
-
+    console.log(data)
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
     console.log(error.message);

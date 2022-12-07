@@ -5,15 +5,21 @@ import Track from '../models/track.js';
 
 
 import stringSimilarity from 'string-similarity';
-import playlist from '../models/playlist.js';
 
 const router = express.Router()
 
 //Getting all
 export const getPlaylists = async (req, res) => {
+    const {page} = req.query;
+
     try {
-        const playlists = await Playlist.find()
-        res.json(playlists)
+
+        const LIMIT = 10;
+        const startIndex = (Number(page) -1 )* LIMIT; 
+        const total = await Playlist.countDocuments({});
+        const playlists = await Playlist.find().sort({last_edit: -1}).limit(LIMIT).skip(startIndex);
+
+        res.status(200).json({data: playlists, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
     }catch (err) {
         res.status(500).json({message: err.message})
     }
@@ -21,6 +27,7 @@ export const getPlaylists = async (req, res) => {
 
 //Getting one
 export const getPlaylist = async (req, res) => {
+    
     let playlist
     try { 
         playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
@@ -88,7 +95,7 @@ export const createPlaylist = async (req, res) => {
 
     const playlist = req.body;
 
-    const newPlaylist = new Playlist ({ ... playlist, creator: req.userId, last_edit: new Date().toLocaleString()})
+    const newPlaylist = new Playlist ({ ... playlist, creator: req.userId, last_edit: new Date()})
     
     try {
         await newPlaylist.save()
@@ -148,7 +155,7 @@ export const updatePlaylist = async (req, res) => {
         res.playlist.playtime = playtime;
     }
 
-    res.playlist.last_edit = new Date().toLocaleString();
+    res.playlist.last_edit = new Date();
 
     try {
         const updatedPlaylist = await res.playlist.save()

@@ -6,14 +6,14 @@ import Playlist from './Playlist/Playlist';
 import useStyles from './styles';
 
 const Playlists = ({ setCurrentId }) => {
-  const playlists = useSelector((state) => state.playlists);
+  const {playlists} = useSelector((state) => state.playlists);
   const classes = useStyles();
 
   return (
-    !playlists.length ? <CircularProgress /> : (
+    !playlists?.length ? <CircularProgress /> : (
       <Grid className={classes.container} container alignItems="stretch" spacing={3}>
         {playlists.map((playlist) => (
-          <Grid key={playlist.playlist_name} item xs={12} sm={6} md={6}>
+          <Grid key={playlist.playlist_name} item xs={12} sm={6} md={6} lg={3}>
             <Playlist playlist={playlist} setCurrentId={setCurrentId} />
           </Grid>
         ))}

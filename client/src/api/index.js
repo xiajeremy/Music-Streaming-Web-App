@@ -11,7 +11,7 @@ API.interceptors.request.use((req) => {
 })
 
 export const fetchPlaylist = (id) => API.get(`/playlists/${id}`);
-export const fetchPlaylists = () => API.get('/playlists');
+export const fetchPlaylists = (page) => API.get(`/playlists?page=${page}`);
 export const createPlaylist = (newPlaylist) => API.post('/playlists', newPlaylist);
 export const likePlaylist = (id) => API.patch(`/playlists/${id}/likePlaylist`);
 export const updatePlaylist = (id, updatedPlaylist) => API.patch(`/playlists/${id}`, updatedPlaylist);
