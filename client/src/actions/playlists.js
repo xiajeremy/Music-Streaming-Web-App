@@ -63,14 +63,14 @@ export const createPlaylist = (playlist) => async (dispatch) => {
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
 };
 
 export const updatePlaylist = (id, playlist) => async (dispatch) => {
   try {
     const { data } = await api.updatePlaylist(id, playlist);
-
+    console.log(data)
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
     console.log(error.message);

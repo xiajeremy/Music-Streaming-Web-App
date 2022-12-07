@@ -7,13 +7,17 @@ import { createPlaylist, updatePlaylist } from '../../actions/playlists';
 
 const Form = ({ currentId, setCurrentId }) => {
   const [playlistData, setPlaylistData] = useState({ playlist_name: '', description: ''});
-  const playlist = useSelector((state) => (currentId ? state.playlists.find((message) => message.playlist_name === currentId) : null));
+  const playlist = useSelector((state) => (currentId ? state.playlists.playlists.find((message) => message.playlist_name === currentId) : null));
   const dispatch = useDispatch();
   const classes = useStyles();
   const user = JSON.parse(localStorage.getItem('profile'));
+  
 
   useEffect(() => {
-    if (playlist) setPlaylistData(playlist);
+    if (playlist) {
+      console.log(playlist)
+      setPlaylistData(playlist)
+    };
   }, [playlist]);
 
   const clear = () => {
