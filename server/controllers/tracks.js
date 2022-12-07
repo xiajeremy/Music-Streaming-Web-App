@@ -41,7 +41,7 @@ export const searchTracks = async (req, res) => {
 
     var allResults = await Track.find({}, {_id:0, track_id: 1, track_title: 1, album_title: 1 })
 
-    let allResultsStr = JSON.stringify(allResults);
+    let allResultsStr = JSON.stringify(allResults).replace(/"track_id":(.*?)"album_title":|"track_title":/g, '');
     let allResultsArr = allResultsStr.split('},{');
 
     let softSearch = stringSimilarity.findBestMatch(req.params.trackSearch, allResultsArr);

@@ -39,7 +39,7 @@ export const getArtist = async (req, res) => {
 export const searchArtists = async (req, res) => {
     var allResults = await Artist.find({}, {_id: 0, artist_name: 1, artist_id: 1})
 
-    let allResultsStr = JSON.stringify(allResults);
+    let allResultsStr = JSON.stringify(allResults).replace(/"artist_id":(.*?)"artist_name":/g, '');
     let allResultsArr = allResultsStr.split('},{');
 
     let softSearch = stringSimilarity.findBestMatch(req.params.artistSearch, allResultsArr);

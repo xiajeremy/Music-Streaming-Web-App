@@ -40,7 +40,8 @@ export const searchPlaylists = async (req, res) => {
 
     var allResults = await Playlist.find({}, {_id: 0, playlist_name: 1, description: 1})
 
-    let allResultsStr = JSON.stringify(allResults);
+    let allResultsStr = JSON.stringify(allResults).replace(/"playlist_name":|"description":/g, '');
+
     let allResultsArr = allResultsStr.split('},{');
 
     let softSearch = stringSimilarity.findBestMatch(req.params.playlistSearch, allResultsArr);
