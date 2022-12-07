@@ -18,4 +18,3 @@ export default (playlists = [], action) => {
       return playlists;
   }
 };
-

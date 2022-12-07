@@ -1,10 +1,29 @@
-import { FETCH_ALL, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_PLAYLIST, FETCH_ALL, START_LOADING, END_LOADING, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
+export const getPlaylist = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING});
+
+    const { data } = await api.fetchPlaylist(id);
+
+    dispatch({ type: FETCH_PLAYLIST, payload: data });
+    dispatch({ type: END_LOADING});
+
+    console.log(data)
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
 export const getPlaylists = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING});
     const { data } = await api.fetchPlaylists();
+
+    dispatch({ type: END_LOADING});
 
     dispatch({ type: FETCH_ALL, payload: data });
     
@@ -16,7 +35,11 @@ export const getPlaylists = () => async (dispatch) => {
 
 export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING});
+
     const {data} = await api.fetchPlaylistsBySearch(searchQuery);
+
+    dispatch({ type: END_LOADING});
 
     dispatch({ type: FETCH_BY_SEARCH, payload: data });
 
@@ -29,7 +52,11 @@ export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
 
 export const createPlaylist = (playlist) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING});
+
     const { data } = await api.createPlaylist(playlist);
+
+    dispatch({ type: END_LOADING});
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
