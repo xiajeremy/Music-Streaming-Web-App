@@ -28,6 +28,9 @@ const playlistSchema = new mongoose.Schema({
     },
     creator: {
         type: String,
+    },
+    name: {
+        type: String
     }
 })
 

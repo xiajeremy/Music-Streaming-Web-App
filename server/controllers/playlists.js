@@ -70,7 +70,8 @@ export const searchPlaylists = async (req, res) => {
 //Creating one
 export const createPlaylist = async (req, res) => {
 
-    if(!req.userId) return res.json({message: "Unauthenticated"})
+
+
     let checkList;
     
     try {
@@ -83,16 +84,12 @@ export const createPlaylist = async (req, res) => {
     }
 
 
+    const playlist = req.body;
 
-    const playlist = new Playlist ({
-        playlist_name: req.body.playlist_name,
-        description: req.body.description,
-        creator: req.body.creator,
-        last_edit: new Date().toLocaleString()
-    })
+    const newPlaylist = new Playlist ({ ... playlist, creator: req.userId, last_edit: new Date().toLocaleString()})
     
     try {
-        const newPlaylist = await playlist.save()
+        await newPlaylist.save()
         res.status(201).json(newPlaylist)
     } catch (err){
         res.status(400).json({ message: err.message })
@@ -115,9 +112,6 @@ export const updatePlaylist = async (req, res) => {
     }
     res.playlist = playlist;
     
-    if (req.body.creator != null){
-        res.playlist.creator = req.body.creator;
-    }
     if (req.body.playlist_name != null){
         res.playlist.playlist_name = req.body.playlist_name;
     }
