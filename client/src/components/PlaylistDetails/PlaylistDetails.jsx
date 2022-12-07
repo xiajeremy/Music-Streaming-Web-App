@@ -23,7 +23,7 @@ const PlaylistDetails = () => {
             <Typography variant="h3" component="h2">{playlist.title}</Typography>
             <Typography gutterBottom variant="body1" component="p">{playlist.description}</Typography>
             <Typography variant="h6">Created by: {playlist.name}</Typography>
-            <Typography variant="body1">{playlist.last_edit}</Typography>
+            <Typography variant="body1">{playlist.last_edit.slice(0, 16).replace(/T/, " ")}</Typography>
             <Divider style={{ margin: '20px 0' }} />
             <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
             <Divider style={{ margin: '20px 0' }} />

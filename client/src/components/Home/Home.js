@@ -28,6 +28,7 @@ const Home = () => {
     dispatch(getPlaylists());
   }, [currentId, dispatch]);
 
+
   const searchPlaylist = () => {
     if (search.trim()) {
       dispatch(getPlaylistsBySearch(search))
@@ -60,7 +61,7 @@ const Home = () => {
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
             <Paper elevation={6}>
-              <Pagination />
+              <Pagination page = {page}/>
             </Paper>
           </Grid>
         </Grid>

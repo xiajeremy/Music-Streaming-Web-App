@@ -16,7 +16,8 @@ const Playlist = ({ playlist, setCurrentId }) => {
   const user = JSON.parse(localStorage.getItem('profile'));
 
   const openPlaylist = () => history.push(`/playlists/${playlist.playlist_name}`)
-  
+
+
   return (
     <Card className={classes.card}>
       {/* <ButtonBase className={classes.cardAction} onClick={openPlaylist}> */}
@@ -24,7 +25,7 @@ const Playlist = ({ playlist, setCurrentId }) => {
         </div>
         <div className={classes.overlay}>
           <Typography variant="h6">{playlist.name}</Typography>
-          <Typography variant="body2">{playlist.last_edit}</Typography>
+          <Typography variant="body2">{playlist.last_edit.slice(0, 16).replace(/T/, " ")}</Typography>
         </div>
         {(user?.result?.sub === playlist?.creator || user?.result?._id === playlist?.creator) && (
         <div className={classes.overlay2}>
