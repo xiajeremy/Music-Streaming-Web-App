@@ -12,6 +12,15 @@ export const getPlaylists = () => async (dispatch) => {
   }
 };
 
+export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
+  try {
+    const {data} = await api.fetchPlaylistsBySearch(searchQuery);
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const createPlaylist = (playlist) => async (dispatch) => {
   try {
     const { data } = await api.createPlaylist(playlist);

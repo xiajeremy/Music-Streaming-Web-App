@@ -39,12 +39,12 @@ export const getTrack = async (req, res) => {
 //QUESTION 4
 export const searchTracks = async (req, res) => {
 
-    var allResults = await Track.find({}, {track_id: 1, track_title: 1, album_title: 1 })
+    var allResults = await Track.find({}, {_id:0, track_id: 1, track_title: 1, album_title: 1 })
 
-    allResultsStr = JSON.stringify(allResults);
-    allResultsArr = allResultsStr.split('},{');
+    let allResultsStr = JSON.stringify(allResults);
+    let allResultsArr = allResultsStr.split('},{');
 
-    softSearch = stringSimilarity.findBestMatch(req.params.trackSearch, allResultsArr);
+    let softSearch = stringSimilarity.findBestMatch(req.params.trackSearch, allResultsArr);
 
     let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
     
@@ -59,7 +59,8 @@ export const searchTracks = async (req, res) => {
             console.log(sortedSearch[i].target)
             console.log(searchIndex)
             console.log(allResultsArr[searchIndex])
-            finalResults.push(allResults[searchIndex].track_id);
+            let track = await Track.findOne({track_id: allResults[searchIndex].track_id})
+            finalResults.push(track);
             counter ++;
         } else {
             break;

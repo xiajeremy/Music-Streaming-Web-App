@@ -38,12 +38,12 @@ export const getPlaylist = async (req, res) => {
 //Search function
 export const searchPlaylists = async (req, res) => {
 
-    var allResults = await Playlist.find({}, {playlist_name: 1, description: 1})
+    var allResults = await Playlist.find({}, {_id: 0, playlist_name: 1, description: 1})
 
-    allResultsStr = JSON.stringify(allResults);
-    allResultsArr = allResultsStr.split('},{');
+    let allResultsStr = JSON.stringify(allResults);
+    let allResultsArr = allResultsStr.split('},{');
 
-    softSearch = stringSimilarity.findBestMatch(req.params.playlistSearch, allResultsArr);
+    let softSearch = stringSimilarity.findBestMatch(req.params.playlistSearch, allResultsArr);
 
     let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
     
@@ -57,7 +57,8 @@ export const searchPlaylists = async (req, res) => {
         console.log(sortedSearch[i].target)
         console.log(searchIndex)
         console.log(allResultsArr[searchIndex])
-        finalResults.push(allResults[searchIndex].playlist_name);
+        let playlist = await Playlist.findOne({playlist_name: allResults[searchIndex].playlist_name})
+        finalResults.push(playlist);
 
     }
     console.log(finalResults)

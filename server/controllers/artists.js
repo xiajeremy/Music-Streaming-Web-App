@@ -37,12 +37,12 @@ export const getArtist = async (req, res) => {
 
 //QUESTION 5
 export const searchArtists = async (req, res) => {
-    var allResults = await Artist.find({}, {artist_name: 1, artist_id: 1})
+    var allResults = await Artist.find({}, {_id: 0, artist_name: 1, artist_id: 1})
 
-    allResultsStr = JSON.stringify(allResults);
-    allResultsArr = allResultsStr.split('},{');
+    let allResultsStr = JSON.stringify(allResults);
+    let allResultsArr = allResultsStr.split('},{');
 
-    softSearch = stringSimilarity.findBestMatch(req.params.artistSearch, allResultsArr);
+    let softSearch = stringSimilarity.findBestMatch(req.params.artistSearch, allResultsArr);
 
     let sortedSearch = softSearch.ratings.sort((t1, t2) => (t1.rating < t2.rating) ? 1 : (t1.rating > t2.rating) ? -1 : 0);
     
@@ -58,7 +58,8 @@ export const searchArtists = async (req, res) => {
             console.log(sortedSearch[i].target)
             console.log(searchIndex)
             console.log(allResultsArr[searchIndex])
-            finalResults.push(allResults[searchIndex].artist_id);
+            let artist = await Artist.findOne({artist_id: allResults[searchIndex].artist_id})
+            finalResults.push(artist);
             counter++;
         } else {
             break;
