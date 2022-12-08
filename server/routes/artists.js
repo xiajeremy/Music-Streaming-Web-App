@@ -2,6 +2,7 @@ import express from 'express';
 import { getArtists, getArtist, searchArtists, updateArtist, deleteArtist } from '../controllers/artists.js';
 import csv from 'csvtojson';
 import multer from 'multer';
+import auth from '../middleware/auth.js';
 
 let upload =  multer({dest: 'data/'})
 

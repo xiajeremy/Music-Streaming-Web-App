@@ -2,7 +2,7 @@ import express from 'express';
 import { getTracks, getTrack, searchTracks, updateTrack, deleteTrack } from '../controllers/tracks.js';
 import csv from 'csvtojson';
 import multer from 'multer';
-
+import auth from '../middleware/auth.js';
 let upload =  multer({dest: 'data/'})
 
 const router = express.Router()

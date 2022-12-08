@@ -26,4 +26,18 @@ const auth = async (req, res, next) => {
         console.log(error)
     }
 }
-export default auth;
+
+
+const isAdmin = (req, res, next) => {
+    auth(req, res, () => {
+        if(req.user.isAdmin){
+            next();
+        }
+        else{
+           res.status(403).send("Access denied. Not Admin...")
+           console.log(error)
+        }
+    })
+}
+
+export default auth && isAdmin;
