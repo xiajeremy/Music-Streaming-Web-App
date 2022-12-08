@@ -14,7 +14,7 @@ import useStyles from './styles';
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
-const Home = () => {
+const ArtistsView = () => {
   const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
   const query = useQuery();
@@ -68,4 +68,4 @@ const Home = () => {
     </Grow>  )
 }
 
-export default Home
+export default ArtistsView

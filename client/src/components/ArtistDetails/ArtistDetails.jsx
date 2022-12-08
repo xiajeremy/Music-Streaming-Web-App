@@ -3,11 +3,10 @@ import {Paper, Typography, CircularProgress, Divider} from '@material-ui/core'
 import {useDispatch, useSelector} from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
-import CommentSection from './CommentSection';
 import {getPlaylist} from '../../actions/playlists'
 import useStyles from './styles'
 
-const PlaylistDetails = () => {
+const ArtistDetails = () => {
     const { playlist, playlists, isLoading } = useSelector((state) => state.playlists);
     const dispatch = useDispatch();
     const history = useHistory();
@@ -36,13 +35,11 @@ const PlaylistDetails = () => {
             <Typography variant="h6">Created by: {playlist.name}</Typography>
             <Typography variant="body1">{playlist.last_edit.slice(0, 16).replace(/T/, " ")}</Typography>
             <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
-            <Divider style={{ margin: '20px 0' }} />
-            <CommentSection playlist={playlist} />
+            <Typography variant="body1"><strong> Reviews </strong></Typography>
             <Divider style={{ margin: '20px 0' }} />
             </div>
         </div>
     )
 }
 
-export default PlaylistDetails;
+export default ArtistDetails;
