@@ -3,6 +3,7 @@ import {Paper, Typography, CircularProgress, Divider} from '@material-ui/core'
 import {useDispatch, useSelector} from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
+import CommentSection from './CommentSection';
 import {getPlaylist} from '../../actions/playlists'
 import useStyles from './styles'
 
@@ -27,7 +28,7 @@ const PlaylistDetails = () => {
             <Divider style={{ margin: '20px 0' }} />
             <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
             <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Comments - coming soon!</strong></Typography>
+            <CommentSection playlist={playlist} />
             <Divider style={{ margin: '20px 0' }} />
             </div>
         </div>
