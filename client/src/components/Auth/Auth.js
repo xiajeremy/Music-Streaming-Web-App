@@ -72,6 +72,12 @@ const Auth = () => {
     return (
         <Container component="main" maxWidth="xs">
             <Paper className={classes.paper} elevation={3}>
+                <Typography variant="h4">
+                    {'Lab 4 Web App'}
+                </Typography>
+                <Typography variant="h6" align="center">
+                    {'We are a music browsing web application. You can find tracks, artists, and public playlists! Sign in to create your first playlist!'}
+                </Typography>
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>

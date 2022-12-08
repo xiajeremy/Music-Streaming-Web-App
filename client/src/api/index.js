@@ -22,7 +22,10 @@ export const fetchPlaylistsBySearch = (searchQuery) => API.get(`playlists/search
 export const signIn = (formData) => API.post('/users/signin', formData);
 export const signUp = (formData) => API.post('/users/signup', formData);
 
-export const fetchTracks = () => API.get(`/tracks`);
+export const fetchTracks = (page) => API.get(`/tracks?page=${page}`);
 export const fetchTrack = (id) => API.get(`/tracks/${id}`);
+export const fetchTracksBySearch = (searchQuery) => API.get(`tracks/search/${searchQuery}`);
 
-export const fetchArtists = (id) => API.get(`/artists/${id}`);
+export const fetchArtists = (page) => API.get(`/artists?page=${page}`);
+export const fetchArtist = (id) => API.get(`/artists/${id}`);
+export const fetchArtistsBySearch = (searchQuery) => API.get(`artists/search/${searchQuery}`);

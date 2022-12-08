@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { getPlaylists, getPlaylistsBySearch } from '../../actions/playlists';
-import Pagination from '../Pagination';
+import Pagination from '../Pagination/PaginationPlaylist';
 import Playlists from '../Playlists/Playlists';
 import Form from '../Form/Form';
 

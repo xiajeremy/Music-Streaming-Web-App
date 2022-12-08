@@ -80,8 +80,6 @@ export const searchPlaylists = async (req, res) => {
 //Creating one
 export const createPlaylist = async (req, res) => {
 
-
-
     let checkList;
     
     try {

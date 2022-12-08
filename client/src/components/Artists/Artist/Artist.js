@@ -8,37 +8,33 @@ import { useHistory } from 'react-router-dom';
 
 import useStyles from './styles';
 
-const Track = ({ track }) => {
+const Artist = ({ artist }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'));
 
-  const openTrack = () => window.open(`https://www.youtube.com/results?search_query=${track.track_title}`, '_blank')
 
 
   return (
     <Card className={classes.card}>
-      <ButtonBase className={classes.cardAction} onClick={openTrack}>
+      <ButtonBase className={classes.cardAction}>
         <div className={classes.media}>
         </div>
         <div className={classes.overlay}>
-          <Typography variant="h6">{track.artist_name}</Typography>
-          {/* <Typography variant="body2">{track.date_recorded.slice(0, 16).replace(/T/, " ")}</Typography> */}
+          <Typography variant="h6">{artist.artist_name}</Typography>
+          {/* <Typography variant="body2">{artist.date_recorded.slice(0, 16).replace(/T/, " ")}</Typography> */}
         </div>
   
         <div className={classes.details}>
           
         </div>
-        <Typography className={classes.title} gutterBottom variant="h5" component="h2">{track.track_title}</Typography>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">{track.album_title}</Typography>
-          <Typography variant="body2" color="textSecondary" component="p">{track.duration}</Typography>
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
         {/* ADD TRACK TO PLAYLIST HERE 
-        <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likeTrack(track.track_id))}>
+        <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likeArtist(artist.artist_id))}>
           <ThumbUpAltIcon fontSize="small" /> Add Review
         </Button>
         */}
@@ -47,4 +43,4 @@ const Track = ({ track }) => {
   );
 };
 
-export default Track;
+export default Artist;
