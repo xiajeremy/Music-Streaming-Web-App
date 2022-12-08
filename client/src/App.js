@@ -3,10 +3,16 @@ import { Container} from '@material-ui/core';
 import { BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
 
 import PlaylistDetails from './components/PlaylistDetails/PlaylistDetails'
-import Tracks from './components/Tracks/Tracks'
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
+// import TracksView from './components/TracksView/TracksView';
+// import ArtistsView from './components/ArtistsView/ArtistsView';
+// import ArtistDetails from './components/ArtistsDetails/ArtistsDetails';
+// import TrackDetails from './components/TracksDetails/TracksDetails';
+
+
+
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
@@ -22,7 +28,16 @@ const App = () => {
           <Route path="/playlists/search" exact component = {Home} />
           <Route path="/playlists/:id" component = {PlaylistDetails} />
           <Route path="/auth" exact component = {() => (!user? <Auth /> : <Redirect to ='/playlists' /> )} />
-          <Route path="/tracks" exact component = {Tracks} />
+
+          {/* <Route path="/tracks" exact component = {TracksView} />
+          <Route path="/tracks/search/:searchQuery" exact component = {TracksView} />
+          <Route path="/tracks/search" exact component = {TracksView} />
+          <Route path="/tracks/:id" component = {TrackDetails} />
+
+          <Route path="/artists" exact component = {ArtistsView} />
+          <Route path="/artists/search/:searchQuery" exact component = {ArtistsView} />
+          <Route path="/artists/search" exact component = {ArtistsView} />
+          <Route path="/artists/:id" component = {ArtistDetails} /> */}
         </Switch>
       </Container>
     </BrowserRouter>

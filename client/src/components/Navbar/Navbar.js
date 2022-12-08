@@ -35,8 +35,14 @@ const Navbar = () => {
     return (
         <AppBar className={classes.appBar} position="static" color="inherit">
             <div className = {classes.brandContainer}>
-                <Typography component={Link} to="/" className={classes.heading} variant="h2" align="center">Lab 4</Typography>                
+                <Typography component={Link} to="/" className={classes.heading} variant="h4" align="center">Home</Typography>                
+            </div>   
+            <div className = {classes.brandContainer}>
+                <Typography component={Link} to="/tracks" className={classes.heading} variant="h4" align="center">Tracks</Typography>                
             </div>    
+            <div className = {classes.brandContainer}>
+                <Typography component={Link} to="/artists" className={classes.heading} variant="h4" align="center">Artists</Typography>                
+            </div>     
             <Toolbar className = {classes.toolbar}>
                 {user ? (
                     <div className = {classes.profile}> 

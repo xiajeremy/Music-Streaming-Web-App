@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, END_LOADING } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE_PLAYLIST, UPDATE, DELETE, LIKE, END_LOADING } from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 import Axios from 'axios';
