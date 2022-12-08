@@ -7,7 +7,7 @@ import { commentPlaylist } from '../../actions/playlists';
 
 const CommentSection = ({ playlist } ) => {
     const classes = useStyles();
-    const [comments, setComments] = useState([1,2,3,4]);
+    const [comments, setComments] = useState([playlist?.comments]);
     const [comment, setComment]= useState('');
     const dispatch = useDispatch();
 
@@ -15,7 +15,7 @@ const CommentSection = ({ playlist } ) => {
 
     const handleClick = () => {
         const finalComment = `${user.result.name}: ${comment}`;
-        dispatch(commentPlaylist(finalComment, playlist.id));
+        dispatch(commentPlaylist(finalComment, playlist.playlist_name));
     };
 
     return(
@@ -25,7 +25,7 @@ const CommentSection = ({ playlist } ) => {
                     <Typography gutterBottom variant = "h6">Comments</Typography>
                     {comments.map((c, i) => (
                         <Typography gutterBottom variant= "subtitle1">
-                            Comment {i}
+                            {c}
                         </Typography>
                     ))}
 

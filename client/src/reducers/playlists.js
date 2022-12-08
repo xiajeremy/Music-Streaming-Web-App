@@ -1,4 +1,4 @@
-import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, SEARCH_PLAYLISTS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, COMMENT, SEARCH_PLAYLISTS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 export default (state =  [], action) => {
   switch (action.type) {
@@ -26,6 +26,12 @@ export default (state =  [], action) => {
       };
     case LIKE:
       return state.map((playlist) => (playlist.playlist_name === action.payload.playlist_name ? action.payload : playlist));
+    case COMMENT:
+      return state.map((playlist) => {if(playlist.playlist_name === action.payload.playlist_name) {
+        return action.payload;
+      }
+      return playlist;
+      });
     case CREATE:
       return [...state, action.payload];
     case UPDATE:

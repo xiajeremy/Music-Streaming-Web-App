@@ -1,4 +1,4 @@
-import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, START_LOADING, END_LOADING, SEARCH_PLAYLISTS, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, START_LOADING, END_LOADING, SEARCH_PLAYLISTS, CREATE, UPDATE, DELETE, LIKE, COMMENT} from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -91,9 +91,9 @@ export const commentPlaylist = (value, id) => async (dispatch) => {
   try {
     const { data } = await api.comment(value, id);
 
-    console.log(data);
+    dispatch({type: 'COMMENT', payload: data})
   } catch (error) {
-    
+    console.log(error)
   }
 };
 

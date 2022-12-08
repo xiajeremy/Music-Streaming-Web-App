@@ -187,17 +187,16 @@ export const deletePlaylist = async (req, res) => {
 }
 
 export const commentPlaylist = async (req, res) => {
-    const { id } = req.params;
     const { value } = req.body;
 
-    playlist = await Playlist.findOne({playlist_name: id})
+    const playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
 
-    //playlist.comments.push(value);
+    playlist.comments.push(value)
     
+    const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, playlist, { new:true });
 
-    const updatedPlaylist = await PostMessage.findByIdAndUpdate(id, playlist, { new:true });
 
-    res.JSON(updatedPlaylist);
+    res.json(updatedPlaylist);
 }
 
 
