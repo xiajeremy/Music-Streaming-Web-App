@@ -182,7 +182,7 @@ export const deletePlaylist = async (req, res) => {
         await res.playlist.remove()
         res.json({ message: "Deleted playlist"})
     } catch (err) {
-        res.status(500).jason({ message: err.message})
+        res.status(500).json({ message: err.message})
     }
 }
 
