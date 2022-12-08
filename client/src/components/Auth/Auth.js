@@ -32,7 +32,9 @@ const Auth = () => {
 
         if(isSignup){
             console.log("authcomponent")
+            
             dispatch(signup(formData, history))
+            
         } else {
             dispatch(signin(formData, history))
 
@@ -57,7 +59,7 @@ const Auth = () => {
         console.log(result)
         localStorage.setItem('profile', JSON.stringify({result, token}))
 
-        history.push('/')
+        history.push('/playlists')
         // try {
         //     dispatch({type: 'AUTH', data: {result, token}})
         // } catch (error) {
