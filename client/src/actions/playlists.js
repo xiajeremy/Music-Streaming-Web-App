@@ -1,4 +1,4 @@
-import { FETCH_PLAYLIST, FETCH_ALL, START_LOADING, END_LOADING, FETCH_BY_SEARCH, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, START_LOADING, END_LOADING, SEARCH_PLAYLISTS, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -26,7 +26,7 @@ export const getPlaylists = (page) => async (dispatch) => {
 
     console.log(data)
 
-    dispatch({ type: FETCH_ALL, payload: data });
+    dispatch({ type: FETCH_ALL_PLAYLISTS, payload: data });
     dispatch({ type: END_LOADING});
 
     
@@ -44,7 +44,7 @@ export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
 
     dispatch({ type: END_LOADING});
 
-    dispatch({ type: FETCH_BY_SEARCH, payload: data });
+    dispatch({ type: SEARCH_PLAYLISTS, payload: data });
 
     console.log(data)
 
@@ -84,6 +84,16 @@ export const likePlaylist = (id) => async (dispatch) => {
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
     console.log(error.message);
+  }
+};
+
+export const commentPlaylist = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.comment(value, id);
+
+    console.log(data);
+  } catch (error) {
+    
   }
 };
 

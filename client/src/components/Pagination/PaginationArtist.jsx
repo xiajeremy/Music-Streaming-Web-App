@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { Pagination, PaginationItem } from '@material-ui/lab';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaylist, getPlaylists } from '../actions/playlists';
+import { getArtist, getArtists } from '../../actions/artists';
 
 
 import useStyles from './styles'
 
 const Paginate = ({page}) => {
-    const { numberOfPages} = useSelector((state) => state.playlists)
+    const { numberOfPages} = useSelector((state) => state.artists)
     const classes = useStyles();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(page) dispatch(getPlaylists(page));
+        if(page) dispatch(getArtists(page));
     }, [page])
 
     return (
@@ -24,7 +24,7 @@ const Paginate = ({page}) => {
             variant="outlined" 
             color="primary" 
             renderItem ={(item) => (
-                <PaginationItem {...item} component={Link} to={`/playlists?page=${item.page}`} />
+                <PaginationItem {...item} component={Link} to={`/artists?page=${item.page}`} />
             )}
         />
     )
