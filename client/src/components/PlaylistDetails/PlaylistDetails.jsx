@@ -36,7 +36,7 @@ const PlaylistDetails = () => {
             <Typography variant="h6">Created by: {playlist.name}</Typography>
             <Typography variant="body1">{playlist.last_edit.slice(0, 16).replace(/T/, " ")}</Typography>
             <Divider style={{ margin: '20px 0' }} />
-            <Typography variant="body1"><strong>Realtime Chat - coming soon!</strong></Typography>
+            <Typography variant="body1"><strong>Reviews</strong></Typography>
             <Divider style={{ margin: '20px 0' }} />
             <CommentSection playlist={playlist} />
             <Divider style={{ margin: '20px 0' }} />
