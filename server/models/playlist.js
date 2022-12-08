@@ -31,7 +31,10 @@ const playlistSchema = new mongoose.Schema({
     },
     name: {
         type: String
-    }
+    },
+    comments: {
+        type: [String], default: []
+    },
 })
 
 export default mongoose.model('Playlist', playlistSchema)

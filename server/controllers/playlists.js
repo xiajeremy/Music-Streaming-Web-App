@@ -7,6 +7,7 @@ import Track from '../models/track.js';
 import stringSimilarity from 'string-similarity';
 
 const router = express.Router()
+const m = new mongoose.Mongoose();
 
 //Getting all
 export const getPlaylists = async (req, res) => {
@@ -165,8 +166,6 @@ export const updatePlaylist = async (req, res) => {
     }
 }
 
-
-
 //Deleting one
 export const deletePlaylist = async (req, res) => {
     let playlist
@@ -187,6 +186,19 @@ export const deletePlaylist = async (req, res) => {
     }
 }
 
+export const commentPlaylist = async (req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+
+    playlist = await Playlist.findOne({playlist_name: id})
+
+    //playlist.comments.push(value);
+    
+
+    const updatedPlaylist = await PostMessage.findByIdAndUpdate(id, playlist, { new:true });
+
+    res.JSON(updatedPlaylist);
+}
 
 
 export default router;

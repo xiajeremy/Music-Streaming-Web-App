@@ -87,6 +87,16 @@ export const likePlaylist = (id) => async (dispatch) => {
   }
 };
 
+export const commentPlaylist = (value, id) => async (dispatch) => {
+  try {
+    const { data } = await api.comment(value, id);
+
+    console.log(data);
+  } catch (error) {
+    
+  }
+};
+
 export const deletePlaylist = (id) => async (dispatch) => {
   try {
     await api.deletePlaylist(id);

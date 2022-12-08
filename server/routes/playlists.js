@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPlaylists, getPlaylist, createPlaylist, searchPlaylists, updatePlaylist, deletePlaylist } from '../controllers/playlists.js';
+import { getPlaylists, getPlaylist, createPlaylist, searchPlaylists, updatePlaylist, commentPlaylist, deletePlaylist } from '../controllers/playlists.js';
 
 import auth from '../middleware/auth.js';
 
@@ -19,5 +19,7 @@ router.post('/', auth, createPlaylist);
 router.patch('/:playlist_name', auth, updatePlaylist);
 //Deleting one
 router.delete('/:playlist_name', auth, deletePlaylist);
+//Creating comment
+router.post('/:playlist_name/commentPlaylist', auth, commentPlaylist);
 
 export default router;
