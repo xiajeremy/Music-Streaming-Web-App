@@ -3,9 +3,9 @@ import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@materi
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import { getPlaylists, getPlaylistsBySearch } from '../../actions/playlists';
-import Pagination from '../Pagination';
-import Playlists from '../Playlists/Playlists';
+import { getTracks, getTracksBySearch } from '../../actions/tracks';
+import Pagination from '../Pagination/PaginationTrack';
+import Tracks from '../Tracks/Tracks';
 import Form from '../Form/Form';
 
 import useStyles from './styles';
@@ -23,16 +23,17 @@ const TracksView = () => {
   const classes = useStyles();
   const [search, setSearch] = useState('');
 
+
   useEffect(() => {
-    dispatch(getPlaylists());
+    dispatch(getTracks());
   }, [currentId, dispatch]);
 
 
-  const searchPlaylist = () => {
+  const searchTrack = () => {
     if (search.trim()) {
-      dispatch(getPlaylistsBySearch(search))
+      dispatch(getTracksBySearch(search))
 
-      history.push(`/playlists/search/${search || 'none'}`)
+      history.push(`/tracks/search/${search || 'none'}`)
     } else {
       history.push('/')
     }
@@ -40,7 +41,7 @@ const TracksView = () => {
 
   const handleKeyPress = (e) => {
     if(e.keyCode === 13) {
-      searchPlaylist();
+      searchTrack();
     }
   }
 
@@ -49,12 +50,12 @@ const TracksView = () => {
       <Container maxWidth='xl'>
         <Grid container justifyContent="space-between" alignItems="stretch" spacing={3} className={classes.gridContainer}>
           <Grid item xs={12} sm={6} md={9}>
-            <Playlists setCurrentId={setCurrentId} />
+            <Tracks setCurrentId={setCurrentId} />
           </Grid>
           <Grid item xs={12} sm={6} md={3}>
             <AppBar className={classes.appBarSearch} position='static' color='inherit'>
-              <TextField name='search' variant='outlined' label='Search Playlists' fullWidth value={search} onKeyDown={handleKeyPress} onChange={(e) => {setSearch(e.target.value)}}/>
-              <Button onClick={searchPlaylist} className={classes.searchButton} variant = "contained" color='primary'>
+              <TextField name='search' variant='outlined' label='Search Tracks' fullWidth value={search} onKeyDown={handleKeyPress} onChange={(e) => {setSearch(e.target.value)}}/>
+              <Button onClick={searchTrack} className={classes.searchButton} variant = "contained" color='primary'>
                 Search
               </Button>
             </AppBar>

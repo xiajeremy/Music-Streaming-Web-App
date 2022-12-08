@@ -6,59 +6,45 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import { likePlaylist, deletePlaylist } from '../../../actions/playlists';
 import useStyles from './styles';
 
-const Playlist = ({ playlist, setCurrentId }) => {
+const Track = ({ track }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'));
 
-  const openPlaylist = () => history.push(`/playlists/${playlist.playlist_name}`)
+  const openTrack = () => window.open(`https://www.youtube.com/results?search_query=${track.track_title}`, '_blank')
 
 
   return (
     <Card className={classes.card}>
-      <ButtonBase className={classes.cardAction} onClick={openPlaylist}>
+      <ButtonBase className={classes.cardAction} onClick={openTrack}>
         <div className={classes.media}>
         </div>
         <div className={classes.overlay}>
-          <Typography variant="h6">{playlist.name}</Typography>
-          <Typography variant="body2">{playlist.last_edit.slice(0, 16).replace(/T/, " ")}</Typography>
+          <Typography variant="h6">{track.artist_name}</Typography>
+          {/* <Typography variant="body2">{track.date_recorded.slice(0, 16).replace(/T/, " ")}</Typography> */}
         </div>
-        {(user?.result?.sub === playlist?.creator || user?.result?._id === playlist?.creator) && (
-        <div className={classes.overlay2}>
-          <Button style={{ color: 'white' }} size="small" 
-            onClick={(e) => {
-              e.stopPropagation();
-              setCurrentId(playlist.playlist_name);
-            }}
-            >
-            <MoreHorizIcon fontSize="medium" />
-          </Button>
-        </div>
-        )}
+  
         <div className={classes.details}>
           
         </div>
-        <Typography className={classes.title} gutterBottom variant="h5" component="h2">{playlist.playlist_name}</Typography>
+        <Typography className={classes.title} gutterBottom variant="h5" component="h2">{track.track_title}</Typography>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">{playlist.description}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">{track.album_title}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">{track.duration}</Typography>
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likePlaylist(playlist.playlist_name))}>
+        {/* ADD TRACK TO PLAYLIST HERE 
+        <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likeTrack(track.track_id))}>
           <ThumbUpAltIcon fontSize="small" /> Add Review
         </Button>
-        {(user?.result?.sub === playlist?.creator || user?.result?._id === playlist?.creator) && (
-          <Button size="small" color="primary" onClick={() => dispatch(deletePlaylist(playlist.playlist_name))}>
-            <DeleteIcon fontSize="small" /> Delete
-          </Button>
-        )}
+        */}
       </CardActions>
     </Card>
   );
 };
 
-export default Playlist;
+export default Track;

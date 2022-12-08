@@ -12,10 +12,10 @@ export const getTracks = async (req, res) => {
     const {page} = req.query;
     try {
 
-        const LIMIT = 100;
+        const LIMIT = 20;
         const startIndex = (Number(page) -1 )* LIMIT; 
         const total = await Track.countDocuments({});
-        const tracks = await Track.find().sort({last_edit: -1}).limit(LIMIT).skip(startIndex);
+        const tracks = await Track.find().limit(LIMIT).skip(startIndex);
 
         res.status(200).json({data: tracks, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
     }catch (err) {

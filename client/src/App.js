@@ -6,10 +6,8 @@ import PlaylistDetails from './components/PlaylistDetails/PlaylistDetails'
 import Navbar from './components/Navbar/Navbar';
 import Home from './components/Home/Home';
 import Auth from './components/Auth/Auth';
-// import TracksView from './components/TracksView/TracksView';
-// import ArtistsView from './components/ArtistsView/ArtistsView';
-// import ArtistDetails from './components/ArtistsDetails/ArtistsDetails';
-// import TrackDetails from './components/TracksDetails/TracksDetails';
+import TracksView from './components/TracksView/TracksView';
+import ArtistsView from './components/ArtistsView/ArtistsView';
 
 
 
@@ -29,15 +27,13 @@ const App = () => {
           <Route path="/playlists/:id" component = {PlaylistDetails} />
           <Route path="/auth" exact component = {() => (!user? <Auth /> : <Redirect to ='/playlists' /> )} />
 
-          {/* <Route path="/tracks" exact component = {TracksView} />
+          <Route path="/tracks" exact component = {TracksView} />
           <Route path="/tracks/search/:searchQuery" exact component = {TracksView} />
           <Route path="/tracks/search" exact component = {TracksView} />
-          <Route path="/tracks/:id" component = {TrackDetails} />
 
           <Route path="/artists" exact component = {ArtistsView} />
           <Route path="/artists/search/:searchQuery" exact component = {ArtistsView} />
           <Route path="/artists/search" exact component = {ArtistsView} />
-          <Route path="/artists/:id" component = {ArtistDetails} /> */}
         </Switch>
       </Container>
     </BrowserRouter>
