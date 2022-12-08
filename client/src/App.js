@@ -20,7 +20,7 @@ const App = () => {
       <Container maxWidth="xl">
         <Navbar />
         <Switch>
-          <Route path="/" exact component = {() => <Redirect to="/playlists" />} />
+          <Route path="/" exact component = {() => <Redirect to="/auth" />} />
           <Route path="/playlists" exact component = {Home} />
           <Route path="/playlists/search/:searchQuery" exact component = {Home} />
           <Route path="/playlists/search" exact component = {Home} />
