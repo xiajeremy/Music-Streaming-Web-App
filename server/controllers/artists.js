@@ -8,11 +8,26 @@ const router = express.Router()
 
 
 
-//Getting all
+/*/Getting all
 export const getArtists = async (req, res) => {
     try {
         const artists = await Artist.find()
         res.json(artists)
+    }catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}*/
+
+export const getArtists = async (req, res) => {
+    const {page} = req.query;
+    try {
+
+        const LIMIT = 25;
+        const startIndex = (Number(page) -1 )* LIMIT; 
+        const total = await Artist.countDocuments({});
+        const artists = await Artist.find().sort({last_edit: -1}).limit(LIMIT).skip(startIndex);
+
+        res.status(200).json({data: artists, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
     }catch (err) {
         res.status(500).json({message: err.message})
     }

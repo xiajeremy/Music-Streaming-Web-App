@@ -8,8 +8,21 @@ const router = express.Router()
 
 
 
+export const getTracks = async (req, res) => {
+    const {page} = req.query;
+    try {
 
-//Getting all
+        const LIMIT = 100;
+        const startIndex = (Number(page) -1 )* LIMIT; 
+        const total = await Track.countDocuments({});
+        const tracks = await Track.find().sort({last_edit: -1}).limit(LIMIT).skip(startIndex);
+
+        res.status(200).json({data: tracks, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
+    }catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}
+/*/Getting all
 export const getTracks = async (req, res) => {
     try {
         const tracks = await Track.find()
@@ -17,7 +30,7 @@ export const getTracks = async (req, res) => {
     }catch (err) {
         res.status(500).json({message: err.message})
     }
-}
+}*/
 
 //Getting one
 export const getTrack = async (req, res) => {
