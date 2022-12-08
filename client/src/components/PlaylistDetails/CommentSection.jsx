@@ -7,7 +7,7 @@ import { commentPlaylist } from '../../actions/playlists';
 
 const CommentSection = ({ playlist } ) => {
     const classes = useStyles();
-    const [comments, setComments] = useState([1,2,3,4]);
+    const [comments, setComments] = useState([]);
     const [comment, setComment]= useState('');
     const dispatch = useDispatch();
 
