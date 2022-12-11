@@ -12,7 +12,7 @@ export const getPlaylist = (id) => async (dispatch) => {
     dispatch({ type: FETCH_PLAYLIST, payload: data });
     dispatch({ type: END_LOADING});
 
-    console.log(data)
+    
   } catch (error) {
     console.log(error.message);
   }
@@ -24,13 +24,13 @@ export const getPlaylists = (page) => async (dispatch) => {
     dispatch({ type: START_LOADING});
     const { data } = await api.fetchPlaylists(page);
 
-    console.log(data)
+    
 
     dispatch({ type: FETCH_ALL_PLAYLISTS, payload: data });
     dispatch({ type: END_LOADING});
 
     
-    console.log(data)
+    
   } catch (error) {
     console.log(error.message);
   }
@@ -46,7 +46,7 @@ export const getPlaylistsBySearch = (searchQuery) => async (dispatch) => {
 
     dispatch({ type: SEARCH_PLAYLISTS, payload: data });
 
-    console.log(data)
+    
 
   } catch (error) {
     console.log(error)
@@ -70,7 +70,7 @@ export const createPlaylist = (playlist) => async (dispatch) => {
 export const updatePlaylist = (id, playlist) => async (dispatch) => {
   try {
     const { data } = await api.updatePlaylist(id, playlist);
-    console.log(data)
+    
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
     console.log(error.message);
@@ -91,7 +91,9 @@ export const commentPlaylist = (value, id) => async (dispatch) => {
   try {
     const { data } = await api.comment(value, id);
 
-    dispatch({type: 'COMMENT', payload: data})
+    dispatch({type: COMMENT, payload: data})
+
+    return data.comments;
   } catch (error) {
     console.log(error)
   }
