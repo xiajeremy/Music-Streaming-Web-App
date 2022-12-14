@@ -25,6 +25,7 @@ export const signUp = (formData) => API.post('/users/signup', formData);
 
 export const fetchTracks = (page) => API.get(`/tracks?page=${page}`);
 export const fetchTrack = (id) => API.get(`/tracks/${id}`);
+export const fetchMyTracks = (playlist_name) => API.get(`/tracks/byPlaylist/${playlist_name}`);
 export const fetchTracksBySearch = (searchQuery) => API.get(`tracks/search/${searchQuery}`);
 
 export const fetchArtists = (page) => API.get(`/artists?page=${page}`);

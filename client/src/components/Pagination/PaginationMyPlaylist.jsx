@@ -15,7 +15,13 @@ const Paginate = ({page}) => {
 
     useEffect(() => {
         console.log(user?.result?._id)
-        if(page) dispatch(getMyPlaylists(page, user?.result?._id));
+        let userID;
+        if(user?.result?._id){
+            userID = user?.result?._id;
+        } else {
+            userID = user?.result?.sub;
+        }
+        if(page) dispatch(getMyPlaylists(page, userID));
     }, [page])
 
     return (

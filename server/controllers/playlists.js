@@ -182,7 +182,10 @@ export const updatePlaylist = async (req, res) => {
         mins = parseInt(tempDuration[0])*60;
         totalDuration = duration + mins + parseInt(tempDuration[1]); 
         
-        let playtime = Math.floor(totalDuration / 60) + ":" + totalDuration % 60
+        let seconds = totalDuration % 60;
+
+        let playtime = Math.floor(totalDuration / 60) + ":" + seconds.toLocaleString('en-US', {
+            minimumIntegerDigits: 2})
         console.log(playtime)
         
         res.playlist.playtime = playtime;

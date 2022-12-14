@@ -1,5 +1,5 @@
 import express from 'express';
-import { getTracks, getTrack, searchTracks, updateTrack, deleteTrack } from '../controllers/tracks.js';
+import { getTracks, getMyTracks, getTrack, searchTracks, updateTrack, deleteTrack } from '../controllers/tracks.js';
 import csv from 'csvtojson';
 import multer from 'multer';
 import auth from '../middleware/auth.js';
@@ -10,6 +10,8 @@ const router = express.Router()
 
 //Getting all
 router.get('/', getTracks);
+//Getting all from playlist
+router.get('/byPlaylist/:playlist_name', getMyTracks);
 //Getting one
 router.get('/:track_id', getTrack);
 //Getting Search

@@ -1,7 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Track from '../models/track.js';
-
+import Playlist from '../models/playlist.js'
 import stringSimilarity from 'string-similarity';
 
 const router = express.Router()
@@ -22,15 +22,35 @@ export const getTracks = async (req, res) => {
         res.status(500).json({message: err.message})
     }
 }
-/*/Getting all
-export const getTracks = async (req, res) => {
-    try {
-        const tracks = await Track.find()
-        res.status(200).json(tracks)
-    }catch (err) {
-        res.status(500).json({message: err.message})
+export const getMyTracks = async (req, res) => {
+    let playlist
+    try { 
+        playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
+        if (playlist == null) {
+            return res.status(404).json({ message: 'Cannot find playlist' })
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message })
     }
-}*/
+
+    let playlistTracks = [];
+    for(let i = 0; i < playlist.track_list.length; i ++){
+        let track
+        try { 
+            track = await Track.findOne({track_id: playlist.track_list[i]})
+            if (track == null) {
+                return res.status(404).json({ message: 'Cannot find track' + playlist.track_list[i]})
+            }
+        } catch (err) {
+            return res.status(500).json({ message: err.message })
+        }
+
+        playlistTracks.push(track)
+    }
+    console.log(playlistTracks)
+
+    res.send({data: playlistTracks})
+}
 
 //Getting one
 export const getTrack = async (req, res) => {

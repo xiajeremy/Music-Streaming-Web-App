@@ -15,7 +15,13 @@ const Form = ({ currentId, setCurrentId }) => {
 
 
   useEffect(() => {
-    dispatch(getMyPlaylists(0, user?.result?._id));
+    let userID;
+    if(user?.result?._id){
+        userID = user?.result?._id;
+    } else {
+        userID = user?.result?.sub;
+    }
+    dispatch(getMyPlaylists(0, userID));
   }, [currentId, dispatch]);
 
   const clear = () => {

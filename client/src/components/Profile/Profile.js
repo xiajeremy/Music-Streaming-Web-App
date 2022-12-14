@@ -25,7 +25,13 @@ const Profile = () => {
   const user = JSON.parse(localStorage.getItem('profile'));
 
   useEffect(() => {
-    dispatch(getMyPlaylists(page, user?.result?._id));
+    let userID;
+    if(user?.result?._id){
+        userID = user?.result?._id;
+    } else {
+        userID = user?.result?.sub;
+    }
+    dispatch(getMyPlaylists(page, userID));
   }, [currentId, dispatch]);
 
 

@@ -10,6 +10,8 @@ export const SEARCH_PLAYLISTS = 'SEARCH_PLAYLISTS';
 
 
 export const FETCH_ALL_TRACKS = 'FETCH_ALL_TRACKS';
+export const FETCH_MY_TRACKS = 'FETCH_MY_TRACKS';
+
 export const FETCH_TRACK = 'FETCH_TRACK';
 export const SEARCH_TRACKS = 'SEARCH_TRACKS';
 

@@ -1,4 +1,4 @@
-import { FETCH_TRACK, FETCH_ALL_TRACKS, COMMENT, SEARCH_TRACKS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_TRACK, FETCH_ALL_TRACKS, FETCH_MY_TRACKS, COMMENT, SEARCH_TRACKS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 export default (state =  { isLoading: true, tracks: []}, action) => {
   switch (action.type) {
@@ -13,6 +13,11 @@ export default (state =  { isLoading: true, tracks: []}, action) => {
         tracks: action.payload.data,
         currentPage: action.payload.currentPage, 
         numberOfPages: action.payload.numberOfPages
+      };
+    case FETCH_MY_TRACKS:
+      return {
+        ... state, 
+        tracks: action.payload.data
       };
     case SEARCH_TRACKS:
       return {
