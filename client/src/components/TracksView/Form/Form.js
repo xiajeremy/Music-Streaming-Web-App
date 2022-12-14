@@ -60,7 +60,7 @@ const Form = ({ currentId, setCurrentId }) => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={playlistData}
+              value={playlistData.playlist_name}
               label="Playlist"
               onChange={(e) => setPlaylistData({playlist_name: e.target.value})}
             >

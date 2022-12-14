@@ -17,7 +17,11 @@ const Playlist = ({ playlist, setCurrentId }) => {
   const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'));
 
-  const openPlaylist = () => history.push(`/playlists/${playlist.playlist_name}`)
+  const openPlaylist = () => {
+    setCurrentId(playlist.playlist_name);
+    history.push(`/playlists/${playlist.playlist_name}`)
+    console.log(history)
+  }
 
   const handleClickOpen = () => {
     setOpen(true);

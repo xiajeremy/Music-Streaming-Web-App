@@ -14,7 +14,7 @@ const Tracks = ({ setCurrentId }) => {
       <Grid className={classes.container} container alignItems="stretch" spacing={3}>
         {tracks.map((track) => (
           <Grid key={track.track_id} item xs={12} sm={6} md={6} lg={3}>
-            <Track track={track}  setCurrentId={setCurrentId}/>
+            <Track track={track} setCurrentId={setCurrentId}/>
           </Grid>
         ))}
       </Grid>

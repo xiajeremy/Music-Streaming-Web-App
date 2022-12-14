@@ -5,10 +5,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { updatePlaylist} from '../../../actions/playlists';
 
 import useStyles from './styles';
 
-const Track = ({ track, setCurrentId }) => {
+const Track = ({ track, setCurrentId,}) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
@@ -16,7 +17,10 @@ const Track = ({ track, setCurrentId }) => {
 
   const openTrack = () => window.open(`https://www.youtube.com/results?search_query=${track.track_title}`, '_blank')
 
-  
+  const handleClickOpen = () => {
+    dispatch(updatePlaylist(history.location.pathname.slice(11) , {remove_track: track.track_id, name: user?.result?.name}));
+    
+  }
 
   return (
     <Card className={classes.card}>
@@ -50,11 +54,16 @@ const Track = ({ track, setCurrentId }) => {
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
-        {/* ADD TRACK TO PLAYLIST HERE 
-        <Button size="small" color="primary" disabled = {!user?.result} onClick={() => dispatch(likeTrack(track.track_id))}>
-          <ThumbUpAltIcon fontSize="small" /> Add Review
-        </Button>
-        */}
+        {/* {((user?.result?.sub === playlist?.creator || user?.result?._id === playlist?.creator)) && ( */}
+        {(history.location.pathname.includes("/playlists/")) && (
+
+          <div>
+            <Button size="small" color="primary" onClick={handleClickOpen}>
+              <DeleteIcon fontSize="small" />Remove
+            </Button>
+          </div>
+          
+        )}
       </CardActions>
     </Card>
   );

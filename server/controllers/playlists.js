@@ -139,6 +139,7 @@ export const createPlaylist = async (req, res) => {
 
 //Replace List given name
 export const updatePlaylist = async (req, res) => {
+
     let playlist;
     
     try {
@@ -151,11 +152,34 @@ export const updatePlaylist = async (req, res) => {
     }
     res.playlist = playlist;
     
+    if(req.userId !== res.playlist.creator){
+        return res.status(400).json({ message: "You are not the playlist creator." })
+
+    }
+
     if (req.body.playlist_name != null){
         res.playlist.playlist_name = req.body.playlist_name;
     }
     if (req.body.description != null){
         res.playlist.description = req.body.description;
+    } 
+    if (req.body.remove_track != null){
+        let track
+        try {
+            track = await Track.findOne({track_id: req.body.remove_track})
+            if (track == null) {
+                return res.status(404).json({ message: 'Cannot find track' })
+            }
+        } catch (err) {
+            console.log("add track")
+            return res.status(500).json({ message: err.message })
+        }
+        
+        const index = res.playlist.track_list.indexOf(req.body.remove_track);
+        if (index > -1) { 
+            res.playlist.track_list.splice(index, 1); 
+        }
+
     } 
     if (req.body.add_track != null){
         let track
