@@ -1,6 +1,6 @@
-import { FETCH_ARTIST, FETCH_ALL_ARTISTS, SEARCH_ARTISTS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ARTIST, FETCH_ALL_ARTISTS, COMMENT, SEARCH_ARTISTS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
-export default (state =  [], action) => {
+export default (state =  { isLoading: true, artists: []}, action) => {
   switch (action.type) {
     case START_LOADING:
       return {... state, isLoading: true};
@@ -25,13 +25,24 @@ export default (state =  [], action) => {
         artist: action.payload
       };
     case LIKE:
-      return state.map((artist) => (artist.artist_name === action.payload.artist_name ? action.payload : artist));
+      return { ... state, artists: state.artists.map((artist) => (artist.artist_name === action.payload.artist_name ? action.payload : artist))};
+    case COMMENT:
+        return {
+          ... state, 
+          artists: state.artists.map((artist) => {
+            if(artist.artist_name === action.payload.artist_name) {
+              return action.payload;
+            }
+
+            return artist
+          })
+        }
     case CREATE:
-      return [...state, action.payload];
+      return { ... state, artists: [...state.artists, action.payload]};
     case UPDATE:
-      return state.map((artist) => (artist.artist_name === action.payload.artist_name ? action.payload : artist));
+      return { ... state, artists: state.artists.map((artist) => (artist.artist_name === action.payload.artist_name ? action.payload : artist))};
     case DELETE:
-      return state.filter((artist) => artist.artist_name !== action.payload);
+      return { ... state, artists: state.artists.filter((artist) => artist.artist_name !== action.payload)};
     default:
       return state;
   }

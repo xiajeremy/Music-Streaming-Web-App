@@ -16,7 +16,7 @@ const playlistSchema = new mongoose.Schema({
         "default": "0"
     },
     track_list: {
-        type: Array, 
+        type: [Number], 
         "default": []
     },
     last_edit:{
@@ -24,7 +24,7 @@ const playlistSchema = new mongoose.Schema({
     },
     description: {
         type: String, 
-        "default": " "
+        "default": ""
     },
     creator: {
         type: String,
@@ -35,6 +35,10 @@ const playlistSchema = new mongoose.Schema({
     comments: {
         type: [String], default: []
     },
+    is_public: {
+        type: Boolean,
+        "default": false
+    }
 })
 
 export default mongoose.model('Playlist', playlistSchema)

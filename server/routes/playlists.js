@@ -1,5 +1,5 @@
 import express from 'express';
-import { getPlaylists, getPlaylist, createPlaylist, searchPlaylists, updatePlaylist, commentPlaylist, deletePlaylist } from '../controllers/playlists.js';
+import { getPlaylists, getMyPlaylists, getPlaylist, createPlaylist, searchPlaylists, updatePlaylist, commentPlaylist, deletePlaylist } from '../controllers/playlists.js';
 
 import auth from '../middleware/auth.js';
 
@@ -9,6 +9,7 @@ const router = express.Router()
 
 //Getting all
 router.get('/', getPlaylists);
+router.get('/:creator/myPlaylists/', getMyPlaylists)
 //Getting one
 router.get('/:playlist_name', getPlaylist);
 //Getting Search

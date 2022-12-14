@@ -1,6 +1,6 @@
-import { FETCH_TRACK, FETCH_ALL_TRACKS, SEARCH_TRACKS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_TRACK, FETCH_ALL_TRACKS, COMMENT, SEARCH_TRACKS, END_LOADING, START_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
-export default (state =  [], action) => {
+export default (state =  { isLoading: true, tracks: []}, action) => {
   switch (action.type) {
     case START_LOADING:
       return {... state, isLoading: true};
@@ -25,13 +25,24 @@ export default (state =  [], action) => {
         track: action.payload
       };
     case LIKE:
-      return state.map((track) => (track.track_title === action.payload.track_title ? action.payload : track));
+      return { ... state, tracks: state.tracks.map((track) => (track.track_title === action.payload.track_title ? action.payload : track))};
+    case COMMENT:
+        return {
+          ... state, 
+          tracks: state.tracks.map((track) => {
+            if(track.track_title === action.payload.track_title) {
+              return action.payload;
+            }
+
+            return track
+          })
+        }
     case CREATE:
-      return [...state, action.payload];
+      return { ... state, tracks: [...state.tracks, action.payload]};
     case UPDATE:
-      return state.map((track) => (track.track_title === action.payload.track_title ? action.payload : track));
+      return { ... state, tracks: state.tracks.map((track) => (track.track_title === action.payload.track_title ? action.payload : track))};
     case DELETE:
-      return state.filter((track) => track.track_title !== action.payload);
+      return { ... state, tracks: state.tracks.filter((track) => track.track_title !== action.payload)};
     default:
       return state;
   }

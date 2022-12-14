@@ -1,4 +1,4 @@
-import { FETCH_PLAYLIST, FETCH_ALL_PLAYLISTS, START_LOADING, END_LOADING, SEARCH_PLAYLISTS, CREATE, UPDATE, DELETE, LIKE, COMMENT} from '../constants/actionTypes';
+import { FETCH_PLAYLIST, FETCH_MY_PLAYLISTS, FETCH_ALL_PLAYLISTS, START_LOADING, END_LOADING, SEARCH_PLAYLISTS, CREATE, UPDATE, DELETE, LIKE, COMMENT} from '../constants/actionTypes';
 
 import * as api from '../api/index.js';
 
@@ -27,6 +27,23 @@ export const getPlaylists = (page) => async (dispatch) => {
     
 
     dispatch({ type: FETCH_ALL_PLAYLISTS, payload: data });
+    dispatch({ type: END_LOADING});
+
+    
+    
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const getMyPlaylists = (page, creator) => async (dispatch) => {
+  try {
+    dispatch({ type: START_LOADING});
+    const { data } = await api.fetchMyPlaylists(page, creator);
+
+    
+
+    dispatch({ type: FETCH_MY_PLAYLISTS, payload: data });
     dispatch({ type: END_LOADING});
 
     

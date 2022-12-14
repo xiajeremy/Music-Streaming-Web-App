@@ -12,6 +12,7 @@ API.interceptors.request.use((req) => {
 
 export const fetchPlaylist = (id) => API.get(`/playlists/${id}`);
 export const fetchPlaylists = (page) => API.get(`/playlists?page=${page}`);
+export const fetchMyPlaylists = (page, creator) => API.get(`/playlists/${creator}/myPlaylists?page=${page}`);
 export const createPlaylist = (newPlaylist) => API.post('/playlists', newPlaylist);
 export const likePlaylist = (id) => API.patch(`/playlists/${id}/likePlaylist`);
 export const comment = (value, id) => API.post(`/playlists/${id}/commentPlaylist`, { value });

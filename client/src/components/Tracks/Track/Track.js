@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 import useStyles from './styles';
 
-const Track = ({ track }) => {
+const Track = ({ track, setCurrentId }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const history = useHistory();
@@ -16,6 +16,7 @@ const Track = ({ track }) => {
 
   const openTrack = () => window.open(`https://www.youtube.com/results?search_query=${track.track_title}`, '_blank')
 
+  
 
   return (
     <Card className={classes.card}>
@@ -26,6 +27,18 @@ const Track = ({ track }) => {
           <Typography variant="h6">{track.artist_name}</Typography>
           {/* <Typography variant="body2">{track.date_recorded.slice(0, 16).replace(/T/, " ")}</Typography> */}
         </div>
+        <div className={classes.overlay2}>
+          <Button style={{ color: 'white' }} size="small" 
+            onClick={(e) => {
+              e.stopPropagation();
+              setCurrentId(track.track_id);
+              console.log(track.track_id)
+            }}
+            >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        </div>
+        
   
         <div className={classes.details}>
           

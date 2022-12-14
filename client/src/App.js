@@ -13,7 +13,7 @@ import privacyPolicy from './components/PrivacyPolicy/privacyPolicy';
 // import TrackDetails from './components/TracksDetails/TracksDetails';
 import TracksView from './components/TracksView/TracksView';
 import ArtistsView from './components/ArtistsView/ArtistsView';
-
+import Profile from './components/Profile/Profile';
 
 
 
@@ -41,6 +41,9 @@ const App = () => {
           <Route path="/artists" exact component = {ArtistsView} />
           <Route path="/artists/search/:searchQuery" exact component = {ArtistsView} />
           <Route path="/artists/search" exact component = {ArtistsView} />
+
+          <Route path="/myPlaylists" exact component = {Profile} />
+
         </Switch>
       </Container>
     </BrowserRouter>

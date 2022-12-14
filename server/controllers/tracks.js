@@ -72,7 +72,7 @@ export const searchTracks = async (req, res) => {
             console.log(sortedSearch[i].target)
             console.log(searchIndex)
             console.log(allResultsArr[searchIndex])
-            let track = await Track.findOne({track_id: allResults[searchIndex]})
+            let track = await Track.findOne({track_id: allResults[searchIndex].track_id})
             finalResults.push(track);
             counter ++;
         } else {

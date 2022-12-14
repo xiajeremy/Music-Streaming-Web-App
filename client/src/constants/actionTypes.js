@@ -2,6 +2,7 @@ export const CREATE = 'CREATE';
 export const UPDATE = 'UPDATE';
 export const DELETE = 'DELETE';
 export const FETCH_ALL_PLAYLISTS = 'FETCH_ALL_PLAYLISTS';
+export const FETCH_MY_PLAYLISTS = 'FETCH_MY_PLAYLISTS';
 export const FETCH_PLAYLIST = 'FETCH_PLAYLIST';
 export const LIKE = 'LIKE';
 export const COMMENT = 'COMMENT';

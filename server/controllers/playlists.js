@@ -26,6 +26,35 @@ export const getPlaylists = async (req, res) => {
     }
 }
 
+//Getting mine only
+export const getMyPlaylists = async (req, res) => {
+    const {page} = req.query;
+    console.log(page)
+    if(page == 0){
+        try {
+            const playlists = await Playlist.find({creator: req.params.creator}).sort({last_edit: -1});
+    
+            res.status(200).json({data: playlists })
+        }catch (err) {
+            res.status(500).json({message: err.message})
+        }
+
+    } else {
+        try {
+
+            const LIMIT = 10;
+            const startIndex = (Number(page) -1 )* LIMIT; 
+            const total = await Playlist.countDocuments({});
+            const playlists = await Playlist.find({creator: req.params.creator}).sort({last_edit: -1}).limit(LIMIT).skip(startIndex);
+    
+            res.status(200).json({data: playlists, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT) })
+        }catch (err) {
+            res.status(500).json({message: err.message})
+        }
+    }
+    
+}
+
 //Getting one
 export const getPlaylist = async (req, res) => {
     
@@ -131,17 +160,19 @@ export const updatePlaylist = async (req, res) => {
     if (req.body.add_track != null){
         let track
         try {
-            track = Track.findOne({track_id: req.body.add_track})
-            if (currentTrack == null) {
+            track = await Track.findOne({track_id: req.body.add_track})
+            if (track == null) {
                 return res.status(404).json({ message: 'Cannot find track' })
             }
         } catch (err) {
+            console.log("add track")
             return res.status(500).json({ message: err.message })
         }
-        res.playlist.trackList.push(track)
-        
-        
-        
+        if(res.playlist.track_list.includes(req.body.add_track)){
+            return res.status(400).json({ message: 'Track is already in Playlist' })
+        }
+        res.playlist.track_list.push(req.body.add_track)
+                
         let tempDuration = track.track_duration.split(':');
         let mins = parseInt(tempDuration[0])*60;
         let duration = mins + parseInt(tempDuration[1])
@@ -191,7 +222,9 @@ export const commentPlaylist = async (req, res) => {
 
     const playlist = await Playlist.findOne({playlist_name: req.params.playlist_name})
 
-    playlist.comments.push(value)
+    const d = new Date();
+    let comment = d.toLocaleString().concat(" - " + value);
+    playlist.comments.push(comment)
     
     const updatedPlaylist = await Playlist.findByIdAndUpdate(playlist._id, playlist, { new:true });
 

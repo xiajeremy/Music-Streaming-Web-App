@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { likePlaylist, deletePlaylist } from '../../../actions/playlists';
 import useStyles from './styles';
 
-const Playlist = ({ playlist, setCurrentId }) => {
+const MyPlaylist = ({ playlist, setCurrentId }) => {
 
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -99,4 +99,4 @@ const Playlist = ({ playlist, setCurrentId }) => {
   );
 };
 
-export default Playlist;
+export default MyPlaylist;

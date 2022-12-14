@@ -70,17 +70,17 @@ export const searchArtists = async (req, res) => {
     for(let i = 0; i < sortedSearch.length; i++){
         if(counter < 20){
             let searchIndex = allResultsArr.indexOf(sortedSearch[i].target)
-            console.log(sortedSearch[i].target)
-            console.log(searchIndex)
-            console.log(allResultsArr[searchIndex])
-            let artist = await Artist.findOne({artist_id: allResults[searchIndex]})
+            console.log("target: "+sortedSearch[i].target)
+            console.log("index: "+searchIndex)
+            console.log("artist id: "+allResults[searchIndex])
+            let artist = await Artist.findOne({artist_id: allResults[searchIndex].artist_id})
             finalResults.push(artist);
             counter++;
         } else {
             break;
         }
     }
-    console.log(finalResults)
+    console.log("final results" + finalResults)
 
     
     res.send(finalResults)

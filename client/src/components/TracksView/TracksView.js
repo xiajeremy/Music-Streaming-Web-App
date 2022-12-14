@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { getTracks, getTracksBySearch } from '../../actions/tracks';
 import Pagination from '../Pagination/PaginationTrack';
 import Tracks from '../Tracks/Tracks';
-import Form from '../Form/Form';
+import Form from './Form/Form';
 
 import useStyles from './styles';
 
@@ -15,13 +15,14 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 const TracksView = () => {
-  const [currentId, setCurrentId] = useState(0);
+  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
   const query = useQuery();
   const history = useHistory();
   const page = query.get('page') || 1;
   const classes = useStyles();
   const [search, setSearch] = useState('');
+  const user = JSON.parse(localStorage.getItem('profile'));
 
 
   useEffect(() => {
@@ -59,7 +60,9 @@ const TracksView = () => {
                 Search
               </Button>
             </AppBar>
-            <Form currentId={currentId} setCurrentId={setCurrentId} />
+            {(user?.result?.name) && (
+              <Form currentId={currentId} setCurrentId={setCurrentId} />
+            )}
               <Paper elevation={6} className={classes.pagination}>
                 <Pagination page = {page}/>
               </Paper>
