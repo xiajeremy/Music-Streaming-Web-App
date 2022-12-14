@@ -58,6 +58,7 @@ const MyPlaylist = ({ playlist, setCurrentId }) => {
         <Typography className={classes.title} gutterBottom variant="h5" component="h2">{playlist.playlist_name}</Typography>
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">Description: {playlist.description}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">Number of Tracks: {playlist.tracks_amount}</Typography>
           <Typography variant="body2" color="textSecondary" component="p">Playtime: {playlist.playtime}</Typography>
 
         </CardContent>

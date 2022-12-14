@@ -172,6 +172,7 @@ export const updatePlaylist = async (req, res) => {
             return res.status(400).json({ message: 'Track is already in Playlist' })
         }
         res.playlist.track_list.push(req.body.add_track)
+
                 
         let tempDuration = track.track_duration.split(':');
         let mins = parseInt(tempDuration[0])*60;
@@ -192,6 +193,7 @@ export const updatePlaylist = async (req, res) => {
     }
 
     res.playlist.last_edit = new Date();
+    res.playlist.tracks_amount = res.playlist.track_list.length;
 
     try {
         const updatedPlaylist = await res.playlist.save()
