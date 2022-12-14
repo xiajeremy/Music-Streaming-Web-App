@@ -15,7 +15,7 @@ export const signin = (formData, history) => async(dispatch) => {
         dispatch({type: AUTH, data});
 
 
-        history.push('/')
+        history.push('/playlists')
     } catch (error) {
         console.log(error)
     }

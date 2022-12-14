@@ -183,7 +183,8 @@ export const updatePlaylist = async (req, res) => {
         totalDuration = duration + mins + parseInt(tempDuration[1]); 
         
         let playtime = Math.floor(totalDuration / 60) + ":" + totalDuration % 60
-
+        console.log(playtime)
+        
         res.playlist.playtime = playtime;
     }
 

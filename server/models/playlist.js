@@ -13,7 +13,7 @@ const playlistSchema = new mongoose.Schema({
     },
     playtime: {
         type: String,
-        "default": "0"
+        "default": "00:00"
     },
     track_list: {
         type: [Number], 

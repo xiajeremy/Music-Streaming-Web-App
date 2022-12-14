@@ -24,7 +24,7 @@ const Track = ({ track, setCurrentId }) => {
         <div className={classes.media}>
         </div>
         <div className={classes.overlay}>
-          <Typography variant="h6">{track.artist_name}</Typography>
+          <Typography variant="h6">Artist: {track.artist_name}</Typography>
           {/* <Typography variant="body2">{track.date_recorded.slice(0, 16).replace(/T/, " ")}</Typography> */}
         </div>
         <div className={classes.overlay2}>
@@ -45,8 +45,8 @@ const Track = ({ track, setCurrentId }) => {
         </div>
         <Typography className={classes.title} gutterBottom variant="h5" component="h2">{track.track_title}</Typography>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">{track.album_title}</Typography>
-          <Typography variant="body2" color="textSecondary" component="p">{track.duration}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">Album: {track.album_title}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">Duration: {track.track_duration}</Typography>
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
